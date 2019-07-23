@@ -53,10 +53,57 @@ CHAPTER 1 - INTRO TO DJANGO
         subcommand creates a new project.
 
         # Create a new project called 'coffeehouse'
-        django-admin startproject coffeehouse
+        $ django-admin startproject coffeehouse
 
         # Create a new project called 'sportstats'
-        django-admin startproject sportstats
+        $ django-admin startproject sportstats
 
 
-    - 
+    - Here is the project structure for the newly created project:
+
+        > coffeehouse
+            - manage.py
+            > coffeehouse
+                - __init__.py
+                - settings.py
+                - urls.py
+                - wsgi.py
+
+
+        manage.py
+          - Runs specific project tasks
+          - Whereas 'django-admin.py' runs system-wide tasks, 'manage.py' runs project-specific tasks
+
+        __init__.py
+          - Python file that allows Python packages to be imported from directories where its present
+
+        settings.py
+          - Contains the config settings for the Django project
+
+        urls.py
+          - Contains URL patterns for the Django project
+
+        wsgi.py
+          - Contains WSGI config properties for the Django project
+          - WSGI is the recommended approach to deploy Django applications in production
+
+
+    - It's a best practice to rename the top-level base name so that it doesn't match the project directory,
+        to avoid confusion.
+
+
+    - To start the development web server:
+
+        $ python manage.py runserver
+
+      Then, navigate to:
+
+        http://localhost:8000
+
+      To start the development server on a different port:
+
+        $ python manage.py runserver 8080
+
+      To start the development server on a different address and port:
+
+        $ python manage.py runserver 192.168.0.2:8888
