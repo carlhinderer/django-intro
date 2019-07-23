@@ -1,0 +1,40 @@
+-----------------------------------------------------------
+CHAPTER 1 - INTRO TO DJANGO
+-----------------------------------------------------------
+
+- Django was started in 2003 by Adrian Holovaty and Simon Willison at the 'Journal-World' newspaper
+    in Lawrence, KS.  In 2005, they released the first public version of the framework.
+
+
+
+- Design Principles
+
+    1. DRY
+    2. Explicit is Better Than Implicit
+    3. Loosely Coupled Architecture
+    
+
+
+- Rails vs Django
+
+    Rails has a lot of implicit behavior.  For instance, this example shows request parameters automatically
+      being implicitly available to the controller, instance variables automatically being passed from
+      controller to the view, and the correct view automatically being inferred from the method name.
+
+      class StoresController < ApplicationController
+        def show
+          # Automatic access to request parameters
+          @store = Store.find(params[:id])
+          # Instance variable automatically available in view
+          # Automatically uses the 'show' template
+        end
+      end
+
+
+    By contast, each of these things must be explicitly declared in Django.
+
+      def detail(request, store_id):
+          store = Store.objects.get(id=store_id)
+          # Instance variables must be passed explicitly
+          # Explicit template must be assigned
+          return render(request, 'store/detail.html', {'store': store})
