@@ -107,3 +107,49 @@ CHAPTER 1 - INTRO TO DJANGO
       To start the development server on a different address and port:
 
         $ python manage.py runserver 192.168.0.2:8888
+
+
+
+- Database Setup
+
+    - By default, new Django projects are set up to use SQLite.  Instead, we'll configure Postgres.
+
+        # Get the sqlite development libraries
+        $ sudo apt-get install libpq-dev
+
+        # Log into postgres
+        $ sudo su - postgres
+        $ psql
+
+        # Create new database
+        > CREATE DATABASE coffeehouse;
+
+        # Create new user account to access the database
+        > CREATE USER djangouser WITH PASSWORD 'djangopw';
+
+        # Grant rights on the database to user
+        > GRANT ALL PRIVILEGES ON DATABASE coffeehouse TO djangouser;
+
+
+    - Next, we'll install 'psycopg2' to add the Python Postgres adapter.
+
+        $ pip install psycopg2
+
+
+    - Next, we edit the 'settings.py' file.
+
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.postgresql',
+                'NAME': 'coffeehouse',
+                'USER': 'djangouser',
+                'PASSWORD': 'djangopw',
+                'HOST': 'localhost',
+                'PORT': '5432'
+            }
+        }
+
+
+    - Finally, we run the initial migrations.
+
+        $ python manage.py migrate
