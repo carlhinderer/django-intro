@@ -12,7 +12,7 @@ CHAPTER 1 - INTRO TO DJANGO
     1. DRY
     2. Explicit is Better Than Implicit
     3. Loosely Coupled Architecture
-    
+
 
 
 - Rails vs Django
@@ -38,3 +38,25 @@ CHAPTER 1 - INTRO TO DJANGO
           # Instance variables must be passed explicitly
           # Explicit template must be assigned
           return render(request, 'store/detail.html', {'store': store})
+
+
+
+- Starting a Django Project
+
+    - To start a Django project, we use either the 'django-admin' executable or the 'django-admin.py'
+        script.  After Django is installed, both of these should be accessible from anywhere in your
+        system (since they are installed in '/usr/bin', 'usr/local/bin', etc.).  Both the executable
+        and script do the exact same thing.
+
+
+    - The 'django-admin' offers subcommands used extensively for daily work.  The 'startproject'
+        subcommand creates a new project.
+
+        # Create a new project called 'coffeehouse'
+        django-admin startproject coffeehouse
+
+        # Create a new project called 'sportstats'
+        django-admin startproject sportstats
+
+
+    - 
