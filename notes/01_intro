@@ -325,3 +325,12 @@ CHAPTER 1 - INTRO TO DJANGO
         method, you can access content from a web request, (ie IP address, session) using the 
         'request' for reference.  You can also access information from a database here.
 
+
+    - Because the contact method returns control to a template 'about/contact.html', we'll also need
+        to create a subdirectory inside our 'templates' directory called 'about', and create a template
+        called 'contact.html'.
+
+        # coffeehouse/templates/about/contact.html
+
+
+    - 
