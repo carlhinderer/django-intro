@@ -308,3 +308,20 @@ CHAPTER 1 - INTRO TO DJANGO
 
         views.py
           - File with view definitions (ie controller methods) for the app.
+
+
+    - Now, we'll open the 'views.py' file and add:
+
+        # about/views.py
+        from django.shortcuts import render
+
+        def contact(request):
+            # Content from the request or database is extracted here
+            #   and passed to the template for display.
+            return render(request, 'about/contact.html')
+
+
+      The 'contact' method is a controller method with access to a user's web request.  Inside this
+        method, you can access content from a web request, (ie IP address, session) using the 
+        'request' for reference.  You can also access information from a database here.
+
