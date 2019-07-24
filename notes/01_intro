@@ -381,3 +381,25 @@ CHAPTER 1 - INTRO TO DJANGO
 
 
     - Now, we can navigate to the '/admin' path.
+
+
+
+- Configuring and Installing the Django Admin Site Docs App
+
+    - The Django admin site also has its own documentation app.  It introspects the source code for
+        all installed apps and presents documentation on controller methods and model objects.
+
+
+    - To install the Django admin site documentation app, we first need to install the 'docutils'
+        package.
+
+        $ pip install docutils
+
+
+    - Now, we can add the path for the admin doc app.  Note that it needs to be before the more
+        general 'admin' path.
+
+        path('admin/doc', include('django.contrib.admindocs.urls'))
+
+
+    - And, we need to add 'django.contrib.admindocs' to the INSTALLED_APPS.
