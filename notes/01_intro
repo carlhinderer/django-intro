@@ -213,4 +213,14 @@ CHAPTER 1 - INTRO TO DJANGO
 
 
 
-- 
+- Creating a Template
+
+    - Here, we'll create a simple template.
+
+        # coffeehouse-project/coffeehouse/templates/homepage.html
+        <html>
+            <body>
+                <h4>Home page for Django</h4>
+            </body>
+        </html>
+
