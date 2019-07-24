@@ -343,3 +343,12 @@ CHAPTER 1 - INTRO TO DJANGO
             ... ,
             url(r'^about/', about_views.contact),
         ]
+
+
+    - Finally, we need to add the 'about' app to the list of installed apps in the 'settings.py':
+
+        # settings.py
+        INSTALLED_APPS = [
+            ... ,
+            'coffeehouse.about'
+        ]
