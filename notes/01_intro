@@ -246,3 +246,65 @@ CHAPTER 1 - INTRO TO DJANGO
                 },
             },
         ]
+
+
+
+- Django Apps
+
+    - Django apps are used to group application functionality.  
+
+
+    - Django apps are normally contained in subdirectories inside a project.  This approach makes it 
+        easier to use Python references and naming conventions.  For instance, if the project is
+        'coffeehouse' and the app is 'stores', we can refer to it with 'coffeehouse.stores'.
+
+
+    - Because apps provide a modular way to group application functionality, it's common for other people
+        or groups to distribute Django apps with common functionality.  For example, if you need a 
+        forum, you can use one of the open-source Django forum apps.
+
+
+    - By default, all Django projects are enabled with 6 apps provided by the framework:
+
+        1. django.contrib.admin
+        2. django.contrib.auth
+        3. django.contrib.contenttypes
+        4. django.contrib.sessions
+        5. django.contrib.messages
+        6. django.contrib.staticfiles
+
+      When we ran the first migration, the database models for these preinstalled apps were created.
+
+
+
+- Creating an App
+
+    - Next, we'll create a small Django app.  From the project directory, we execute the command:
+
+        # Create an app named 'about' in the project directory
+        $ django-admin startapp about
+
+
+    - Once the app is created, we see that the 'about' directory contains:
+
+        __init__.py
+          - Allows app packages to be imported from other directories
+
+        migrations
+          - Directory that contains migrations applied to the app's database definitions
+
+        admin.py
+          - File with admin definitions for the app.  
+          - These definitions are needed to access model class instances from the Django admin.
+
+        apps.py
+          - File with configuration parameters for the app.
+
+        models.py
+          - File with model classes for the app.
+
+        tests.py
+          - File with test definitions for the app.
+
+        views.py
+          - File with view definitions (ie controller methods) for the app.
