@@ -352,3 +352,32 @@ CHAPTER 1 - INTRO TO DJANGO
             ... ,
             'coffeehouse.about'
         ]
+
+
+
+- Setting Up the Django Admin Site
+
+    - The Django admin site provides simple CRUD operations for selected database tables.  It is built
+        as a Django app.
+
+
+    - We already have a url for the admin app (the 'admin' url), which was automatically generated.
+        Also, we can see that the 'INSTALLED_APPS' in 'settings.py' already includes 'django.contrib.admin',
+        which indicates the admin site app is enabled.
+
+
+    - Now, we'll create a Django superuser (admin) to access the Django admin.  We can use the 
+        'createsuperuser' command from 'manage.py' to do this.
+
+        $ python manage.py createsuperuser
+
+        Username: admin
+        Email: admin@coffeehouse.com
+        Password: SooPer123
+
+
+    - Note that the password validation rules can be set in the 'AUTH_PASSWORD_VALIDATORS' in
+        'settings.py'.
+
+
+    - Now, we can navigate to the '/admin' path.
