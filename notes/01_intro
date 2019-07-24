@@ -333,4 +333,13 @@ CHAPTER 1 - INTRO TO DJANGO
         # coffeehouse/templates/about/contact.html
 
 
-    - 
+    - Right now, the 'contact' method isn't linked to a URL.  Lets add this url, which gives control to
+        the 'contact' controller method.
+
+        # coffeehouse/urls.py
+        from coffeehouse.about import views as about_views
+
+        urlpatters = [
+            ... ,
+            url(r'^about/', about_views.contact),
+        ]
