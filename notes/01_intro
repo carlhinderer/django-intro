@@ -153,3 +153,64 @@ CHAPTER 1 - INTRO TO DJANGO
     - Finally, we run the initial migrations.
 
         $ python manage.py migrate
+
+
+
+- URLs, Templates, and Apps
+
+    - URLs define the entry points for accessing content.  Templates define the end points that give form
+        to the final content.  Apps serve as the middleware between urls and templates, altering or 
+        adding content from a database or user interactions.
+
+
+                             User Requests
+                                  |
+                                  v
+                      URLs Layer (Routes Requests)
+                           |                |
+                           |                v
+                  Static   |          Apps Layer (Modify/Enrich Content)  <--->  Database
+                  Content  |                |
+                           |                |
+                           v                v
+                        Templates Layer (Structure Content)
+
+
+    - Note that the Apps layer can be bypassed if no dynamic content is needed.
+
+
+
+- Creating URLs
+
+    - First, we'll create a URL to create a custom home page.  The ^$ regex is used to match the home
+        page.  
+
+        # urls.py
+        from django.conf.urls import url
+        from django.contrib import admin
+        from django.views.generic import TemplateView
+
+        urlpatters = [
+            url(r'^admin/', admin.site.urls),
+            url(r'^$', TemplateView.as_view(template_name='homepage.html')),
+        ]
+
+
+    - Since the 'homepage.html' template doesn't exist yet, we will get an error.
+
+
+    - Note that in Django 2, 'path' is becoming preferred over 'url', which will eventually be
+        deprecated.  'path' has simpler, more readable syntax.  'url' is actually an aliax for 're_path'.
+
+        # Comparison
+        url(r'^articles/(?P<year>[0-9]{4})/$', views.year_archive)
+        path('articles/<int:year>/', views.year_archive)
+
+
+    - To use 'path' for the homepage,
+
+        path('', TemplateView.as_view(template_name='homepage.html'))
+
+
+
+- 
