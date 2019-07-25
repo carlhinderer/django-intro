@@ -1,0 +1,61 @@
+-----------------------------------------------------------
+CHAPTER 2 - DJANGO URLS AND VIEWS
+-----------------------------------------------------------
+
+- URL Regular Expressions
+
+    - The precedence rule is that granular urls come first, and broad urls come last.  If more than one
+        URL matches the incoming request, the top one will get triggered.
+
+        urlpatterns = [
+            url(r'^about/',TemplateView.as_view(template_name='about.html')),
+            url(r'^about/index/',TemplateView.as_view(template_name='index.html')),
+        ]
+
+
+    - Using exact patterns (which end with $) instead of wildcard matching, can make the URLs easier to
+        reason about in a large application.
+
+        urlpatterns = [
+            url(r'^about/$',TemplateView.as_view(template_name='about.html')),
+            url(r'^about/index/$',TemplateView.as_view(template_name='index.html')),
+        ]
+
+
+    - Exact patterns can end up causing extra work if you're doing SEO or A/B testing, since you'll need
+        to provide an exact match for each URL you use.
+
+        # SEO Example
+        /about/the+coffeehouse+in+san+diego
+
+        # A/B Testing Example
+        /about/landing/a
+        /about/landing/b
+
+
+
+- Regex Syntax For URLs
+
+    - Symbols
+
+        ^     Start of URL
+        +     1 or more occurrences
+        []    Character grouping
+        \D+   1 or more digits
+
+
+    - Examples
+
+        r'^$'                 Empty String
+        r'^stores/'           /stores/ with anything after it
+        r'^about/contact$'    /about/contact exactly
+        r'^stores/\d+/'       /stores/ with any digit
+
+        r'^drinks/mocha|espresso/'    /drinks/mocha or /drinks/espresso with anything after it
+
+
+    - Note that Django URLs do not inspect GET request query strings.
+
+
+
+- 
