@@ -143,3 +143,20 @@ CHAPTER 2 - DJANGO URLS AND VIEWS
 
         # Must also add 'location' to view parameters
         def detail(request, store_id='1', location=None)
+
+
+
+- Accessing Parameters from the Query String
+
+    - For example, we receive the request:
+
+        /stores/1/?hours=sunday&map=flash
+
+      Here is our view method for extracting the query string parameters:
+
+        def detail(request,store_id='1',location=None):
+            hours = request.GET.get('hours', '')
+            map = request.GET.get('map', '')
+            # 'hours' has value 'sunday' or '' if hours not in url
+            # 'map' has value 'flash' or '' if map not in url
+            return render(request,'stores/detail.html')
