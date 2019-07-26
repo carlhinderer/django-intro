@@ -160,3 +160,60 @@ CHAPTER 2 - DJANGO URLS AND VIEWS
             # 'hours' has value 'sunday' or '' if hours not in url
             # 'map' has value 'flash' or '' if map not in url
             return render(request,'stores/detail.html')
+
+
+
+- URL Consolidation and Modularization
+
+    - Once a project becomes large, it can be difficult to manage all the URLs in a single file.  There
+        are a few different methods to manage that complexity.
+
+
+    - For example, here we use the 'include' method to include a separate module of URLs from the
+        'about' app.  
+
+        # coffeehouse/urls.py
+        from django.conf.urls import include, url
+        from django.views.generic import TemplateView
+
+        urlpatterns = [
+            url(r'^$',TemplateView.as_view(template_name='homepage.html')),
+            url(r'^about/',include('coffeehouse.about.urls')),
+            url(r'^stores/',include('coffeehouse.stores.urls'),{'location':'headquarters'}),
+        ]
+
+
+        # coffeehouse/about/urls.py
+        from django.conf.urls import url
+        from . import views
+
+        urlpatterns = [
+            url(r'^$',views.index),
+            url(r'^contact/$',views.contact),
+        ]
+
+
+    - Another way to organize URLs is to put them in separate groups in the 'urls.py'.
+
+        # coffeehouse/urls.py
+        from django.conf.urls import include, url
+        from django.views.generic import TemplateView
+        
+        from coffeehouse.about import views as about_views
+        from coffeehouse.stores import views as stores_views
+        
+        store_patterns = [
+            url(r'^$',stores_views.index),
+            url(r'^(?P<store_id>\d+)/$',stores_views.detail),
+        ]
+        
+        about_patterns = [
+            url(r'^$',about_views.index),
+            url(r'^contact/$',about_views.contact),
+        ]
+        
+        urlpatterns = [
+            url(r'^$',TemplateView.as_view(template_name='homepage.html')),
+            url(r'^about/',include(about_patterns)),
+            url(r'^stores/',include(store_patterns),{'location':'headquarters'}),
+        ]
