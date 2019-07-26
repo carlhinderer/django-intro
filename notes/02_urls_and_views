@@ -217,3 +217,54 @@ CHAPTER 2 - DJANGO URLS AND VIEWS
             url(r'^about/',include(about_patterns)),
             url(r'^stores/',include(store_patterns),{'location':'headquarters'}),
         ]
+
+
+
+- URL Naming
+
+    - A project's internal links tend to be hard-coded, which can present a serious maintenance problem.  
+        Django has a way to name urls so that it's easy to reference them in view methods and templates.
+
+
+        # Definition in urls.py
+        url(r'^$',TemplateView.as_view(template_name='homepage.html'), name="homepage")
+
+
+        # Definition in view method
+        # The 'reverse' method looks up a url definition and substitutes it in
+        from django.http import HttpResponsePermanentRedirect
+        from django.core.urlresolvers import reverse
+
+        def method(request):
+            ....
+            return HttpResponsePermanentRedirect(reverse('homepage'))
+
+
+        # Definition in template
+        <a href="{% url 'homepage' %}">Back to home page</a>
+
+
+    - We can also pass parameters around when using named links.
+
+        # Definition in urls.py
+        url(r'^drinks/(?P<drink_name>\D+)/',
+            TemplateView.as_view(template_name='drinks/index.html'),
+            name="drink")
+
+
+        # Definition in view method
+        from django.http import HttpResponsePermanentRedirect
+        from django.core.urlresolvers import reverse
+
+        def method(request):
+            ....
+            return HttpResponsePermanentRedirect(reverse('drink', args=(drink.name,)))
+
+
+        # Definition in template
+        <a href="{% url 'drink' drink.name %}">Drink on sale</a>
+        <a href="{% url 'drink' 'latte' %}">Drink on sale</a>
+
+
+    - Beware that Django always checks at startup that all 'reverse' and '{% url %}' definitions are
+        valid.  If there is a typo in these, the application won't start!
