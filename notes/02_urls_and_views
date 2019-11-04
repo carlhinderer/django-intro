@@ -268,3 +268,69 @@ CHAPTER 2 - DJANGO URLS AND VIEWS
 
     - Beware that Django always checks at startup that all 'reverse' and '{% url %}' definitions are
         valid.  If there is a typo in these, the application won't start!
+
+
+
+- URL Namespaces
+
+    - We may have several 'index' or 'details' pages for different entities in our application.  We can
+        use the 'namespace' attribute to allow a group of URLs to be identified with a unique
+        qualifier, so that we can refer to them as named urls.
+
+
+        # Main urls.py
+        from django.conf.urls import include, url
+        
+        urlpatterns = [
+            url(r'^$',TemplateView.as_view(template_name='homepage.html') ,name="homepage"),
+            url(r'^about/',include('coffeehouse.about.urls', namespace="about")),
+            url(r'^stores/',include('coffeehouse.stores.urls', namespace="stores")),
+        ]
+        
+
+        # About urls.py
+        from . import views
+        
+        urlpatterns = [
+            url(r'^$',views.index, name="index"),
+            url(r'^contact/$',views.contact, name="contact"),
+        ]
+        
+
+        # Stores urls.py
+        from . import views
+        
+        urlpatterns = [
+            url(r'^$',views.index, name="index"),
+            url(r'^(?P<store_id>\d+)/$', views.detail, name="detail"),
+        )
+        
+
+        # Definition in view method
+        from django.http import HttpResponsePermanentRedirect
+        from django.core.urlresolvers import reverse
+        
+        def method(request):
+            ....
+            return HttpResponsePermanentRedirect(reverse('about:index'))
+        
+
+        # Definition in template
+        <a href="{% url 'stores:index' %}">Back to stores index</a>
+
+
+    - Namespaces can also be nested.
+
+        # Definition in view method
+        from django.http import HttpResponsePermanentRedirect
+        from django.core.urlresolvers import reverse
+
+        def method(request):
+            ....
+            return HttpResponsePermanentRedirect(reverse('stores:about:index', args=(store.id,)))
+
+
+        # Definition in template
+        <a href="{% url 'stores:about:index' store.id %}"> See about for {{store.name}} </a>
+
+        
