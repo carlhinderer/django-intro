@@ -401,3 +401,94 @@ CHAPTER 2 - DJANGO URLS AND VIEWS
         <hr />
         <p>We offer: {{store_amenities.0}} and {{store_amenities.1}}</p>
         <p>Menu includes : {{store_menu.1.1}} and {{store_menu.2.1}}</p>
+
+
+
+- View Method Responses
+
+    - The 'render()' method we've been using to generate view method responses so far has been a shortcut.  There are other
+        alternatives as well.
+
+
+    - There are 3 different alternatives for rendering templates from data available in the view method.
+
+        # Option 1
+        # Parameters:
+        #   1. Request reference (required)
+        #   2. Template route (required)
+        #   3. Context dictionary (optional)
+        # Optional arguments:
+        #   'content_type' : sets the HTTP 'Content-Type' header, defaults to 'DEFAULT_CONTENT_TYPE' in settings.py
+                                (which is 'text/html')
+        #   'status'       : HTTP status code (defaults to 200)
+        #   'using'        : sets template engine to be used ('jinja2' or 'django')
+
+        from django.shortcuts import render
+        
+        def detail(request, store_id='1', location=None):
+            ...
+            return render(request, 'stores/detail.html', values_for_template)
+        
+
+        # Option 2
+        # Same as Option 1, but a TemplateResponse object can alter a response through middleware.
+        # Optional arguments:
+        #   'content_type' : default is 'DEFAULT_CONTENT_TYPE' in settings.py
+        #   'status'       : default is 200
+        #   'charset'      : default is 'DEFAULT_CHARSET' in settings.py
+        #   'using'        : template engine
+
+        from django.template.response import TemplateResponse
+        
+        def detail(request, store_id='1', location=None):
+            ...
+            return TemplateResponse(request, 'stores/detail.html', values_for_template)
+        
+
+        # Option 3
+        # This approach is the most flexible.  First, we create a raw HttpResponse object.  Then, we 
+        #   load the template and the context separately.
+
+        from django.http import HttpResponse
+        from django.template import loader, Context
+        
+        def detail(request, store_id='1', location=None):
+             ...
+             response = HttpResponse()
+             t = loader.get_template('stores/detail.html')
+             c = Context(values_for_template)
+             return response.write(t.render(c))
+
+
+
+- Response Options for HTTP Status and Content-Type Headers
+
+    - The 'Content-Type' header is used to indicate the media type of the resource.
+
+        > In requests (ie POST or PUT), the client uses this header to tell the server what type of 
+            data is sent.
+
+        > In responses, the server uses this header to tell the client the content type of the returned
+            content.
+
+
+    - Here are examples of setting the Content-type and Status headers:
+
+        from django.shortcuts import render
+
+        # No method body(s) and only render() example provided for simplicity
+        
+        # Returns content type text/plain, with default HTTP 200
+        return render(request,'stores/menu.csv', values_for_template, content_type='text/plain')
+        
+        # Returns HTTP 404, wtih default text/html
+        # NOTE: Django has a built-in shortcut & template 404 response, described in the next section
+        return render(request,'custom/notfound.html',status=404)
+        
+        # Returns HTTP 500, wtih default text/html
+        # NOTE: Django has a built-in shortcut & template 500 response, described in the next section
+        return render(request,'custom/internalerror.html',status=500)
+        
+        # Returns content type application/json, with default HTTP 200
+        # NOTE: Django has a built-in shortcut JSON response, described in the next section
+        return render(request,'stores/menu.json', values_for_template, content_type='application/json')
