@@ -403,3 +403,5 @@ CHAPTER 1 - INTRO TO DJANGO
 
 
     - And, we need to add 'django.contrib.admindocs' to the INSTALLED_APPS.
+
+    - Now, to see our documentation, we can navigate to 'http://localhost:8000/admin/doc'.
