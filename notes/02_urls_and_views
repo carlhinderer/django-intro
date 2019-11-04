@@ -481,14 +481,141 @@ CHAPTER 2 - DJANGO URLS AND VIEWS
         # Returns content type text/plain, with default HTTP 200
         return render(request,'stores/menu.csv', values_for_template, content_type='text/plain')
         
-        # Returns HTTP 404, wtih default text/html
+        # Returns HTTP 404, with default text/html
         # NOTE: Django has a built-in shortcut & template 404 response, described in the next section
-        return render(request,'custom/notfound.html',status=404)
+        return render(request, 'custom/notfound.html', status=404)
         
         # Returns HTTP 500, wtih default text/html
         # NOTE: Django has a built-in shortcut & template 500 response, described in the next section
-        return render(request,'custom/internalerror.html',status=500)
+        return render(request, 'custom/internalerror.html', status=500)
         
         # Returns content type application/json, with default HTTP 200
+        # Often required for applications consume AJAX requests
         # NOTE: Django has a built-in shortcut JSON response, described in the next section
         return render(request,'stores/menu.json', values_for_template, content_type='application/json')
+
+
+
+- Built-in Response Shortcuts
+
+    HTTP status code               Python code sample
+
+    404 (Not Found)                from django.http import Http404
+                                   raise Http404
+
+    500 (Internal Server Error)    raise Exception
+
+    400 (Bad Request)              from django.core.exceptions import SuspiciousOperation
+                                   raise SuspiciousOperation
+
+    403 (Forbidden)                from django.core.exceptions import PermissionDenied
+                                   raise PermissionDenied
+
+
+
+- DEBUG Setting and Error Pages
+
+    - If 'DEBUG=True' in 'settings.py', error pages for each error with stack traces will be returned.  
+      If 'DEBUG=False', just the error status will be returned.
+
+
+    - We can also create custom error pages for each of the errors.
+
+        # Route changes to urls.py
+
+        # Overrides the default 400 handler django.views.defaults.bad_request
+        handler400 = 'coffeehouse.utils.views.bad_request'
+
+        # Overrides the default 403 handler django.views.defaults.permission_denied
+        handler403 = 'coffeehouse.utils.views.permission_denied'
+
+        # Overrides the default 404 handler django.views.defaults.page_not_found
+        handler404 = 'coffeehouse.utils.views.page_not_found'
+
+        # Overrides the default 500 handler django.views.defaults.server_error
+        handler500 = 'coffeehouse.utils.views.server_error'
+        
+        urlpatterns = [....
+        ]
+
+
+        # Custom view methods
+        from django.shortcuts import render
+
+        def page_not_found(request):
+            # Dict to pass to template, data could come from DB query
+            values_for_template = {}
+            return render(request,'404.html',values_for_template,status=404)
+        
+        def server_error(request):
+            # Dict to pass to template, data could come from DB query
+            values_for_template = {}
+            return render(request,'500.html',values_for_template,status=500)
+        
+        def bad_request(request):
+            # Dict to pass to template, data could come from DB query
+            values_for_template = {}
+            return render(request,'400.html',values_for_template,status=400)
+        
+        def permission_denied(request):
+            # Dict to pass to template, data could come from DB query
+            values_for_template = {}
+            return render(request,'403.html',values_for_template,status=403)
+
+
+
+- Built-in Response Shortcuts for Inline and Streamed Content
+
+    - All the examples we've had so far render a template as a response.  Sometimes, a simple status 
+        will be sufficient.
+
+      Here are shortcuts for typical HTTP response codes:
+
+        HTTP status code                    Python code sample
+
+        301 (Permanent Redirect)            from django.http import HttpResponsePermanentRedirect
+                                            return HttpResponsePermanentRedirect(“/”)
+
+        302 (Redirect)                      from django.http import HttpResponseRedirect
+                                            return HttpResponseRedirect(“/”)
+
+        304 (NOT MODIFIED)                  from django.http import HttpResponseNotModified
+                                            return HttpResponseNotModified()*
+
+        400 (BAD REQUEST)                   from django.http import HttpResponseBadRequest
+                                            return HttpResponseBadRequest(“<h4>The request doesn’t look right</h4>”)
+
+        404 (NOT FOUND)                     from django.http import HttpResponseNotFound
+                                            return HttpResponseNotFound(“<h4>Ups, we can’t find that page</h4>”)
+
+        403 (FORBIDDEN)                     from django.http import HttpResponseForbidden
+                                            return HttpResponseForbidden(“Can’t look at anything here”, content_type=“text/plain”)
+
+        405 (METHOD NOT ALLOWED)            from django.http import HttpResponseNotAllowed
+                                            return HttpResponseNotAllowed(“<h4>Method not allowed</h4>”)
+
+        410 (GONE)                          from django.http import HttpResponseGone
+                                            return HttpResponseGone(“No longer here”,content_type=“text/plain”)
+
+        500 (INTERNAL SERVER ERROR)         from django.http import HttpResponseServerError
+                                            return HttpResponseServerError(“<h4>Ups, that’s a mistake on our part, sorry!</h4>”)
+
+        Inline response that serializes     from django.http import JsonResponse
+        data to JSON (Defaults to HTTP 200  data_dict = {’name’:’Downtown’,’address’:’Main #385’,’city’:’San Diego’,’state’:’CA’}
+        and content type application/json)  return JsonResponse(data_dict)
+
+        Inline response that stream data    from django.http import StreamingHttpResponse
+        (Defaults to HTTP 200 and           return StreamingHttpResponse(large_data_structure)
+        streaming content, which is an 
+        iterator of strings)
+    
+        Inline response that stream         from django.http import FileResponse
+        binary files (Defaults to HTTP      return FileResponse(open(’Report.pdf’,’rb’))
+        200 and streaming content)
+    
+        Inline response with any HTTP       from django.http import HttpResponse
+        status code (Defaults to HTTP       return HttpResponse(“<h4>Django inline response</h4>”)
+        200)
+    
+
+
