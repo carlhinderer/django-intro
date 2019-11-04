@@ -832,4 +832,110 @@ CHAPTER 2 - DJANGO URLS AND VIEWS
 
 
 
-- 
+- Middleware Flash Messages in View Methods
+
+    - Flash messages are typically used when users perform an action (ie submit a form) and it's necessary to
+        tell them if the action was successful or there was some kind of error.
+
+
+    - Django Flash requires (in 'settings.py'):
+        - 'django.contrib.messages' in INSTALLED_APPs
+        - 'django.contrib.messages.middleware.MessageMiddleware' in MIDDLEWARE
+        - 'django.contrib.messages.context_processors.messages' in OPTIONS of TEMPLATES
+
+      All of these things are present in new projects by default.
+
+
+
+    - Django has the following standard message severity levels built in:
+
+        Level         Tag          Value       Purpose
+        ---------------------------------------------------------------------------------------------------------------
+        DEBUG         debug        10          Development-related messages that will be ignored (or removed) in a 
+                                                 production deployment.
+
+        INFO          info         20          Informational messages for the user.
+
+        SUCCESS       success      25          An action was successful, for example, “Contact info was sent 
+                                                 successfully.”
+
+        WARNING       warning      30          A failure did not occur but may be imminent.
+
+        ERROR         error        40          An action was not successful or some other failure occurred.
+
+
+
+    - Here is how we add flash messages:
+
+        from django.contrib import messages
+
+        # Generic add_message method
+        # Debug messages ignored by default
+        messages.add_message(request, messages.DEBUG, 'The following SQL statements were executed: %s' % sqlqueries)
+        messages.add_message(request, messages.INFO, 'All items on this page have free shipping.')
+        messages.add_message(request, messages.SUCCESS, 'Email sent successfully.')
+        messages.add_message(request, messages.WARNING, 'You will need to change your password in one week.')
+        messages.add_message(request, messages.ERROR, 'We could not process your request at this time.')
+        
+        # Shortcut level methods
+        # Debug messages ignored by default
+        messages.debug(request, 'The following SQL statements were executed: %s' % sqlqueries)
+        messages.info(request, 'All items on this page have free shipping.')
+        messages.success(request, 'Email sent successfully.')
+        messages.warning(request, 'You will need to change your password in one week.')
+        messages.error(request, 'We could not process your request at this time.')
+
+
+    - By default, debug messages are ignored.  However, we can change this in the 'settings.py'.
+
+        # Reduce threshold to DEBUG level in settings.py
+        from django.contrib.messages import constants as message_constants
+        MESSAGE_LEVEL = message_constants.DEBUG
+        
+        # Increase threshold to WARNING level in setting.py
+        from django.contrib.messages import constants as message_constants
+        MESSAGE_LEVEL = message_constants.WARNING
+
+
+
+- Accessing Flash Memories
+
+    - The most common place we access Django flash messages is in templates.  As a shortcut, flash messages
+        are available on all templates through the 'messages' variable.
+
+
+    - When you add a Django flash message, Django creates an instance of the 'storage.base.Message' class.
+        The class has these attributes:
+
+        message
+        level
+        tags
+        extra_tags
+        level_tag
+
+
+    - Here is a template that displays Django flash messages if there are any.
+
+        {% if messages %}
+        <ul class="messages">
+            {% for msg in messages %}
+            <li>
+                <div class="alert alert-{{msg.level_tag}}" role="alert">
+                {{msg.message}}
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+
+    - Note that the css class on the messages is part of the CSS bootstrap framework.
+
+
+    - The flash messages can also be accessed in view methods.
+
+        from django.contrib import messages
+
+        the_req_messages = messages.get_messages(request)
+        for msg in the_req_messages:
+            do_something_with_the_flash_messages(msg)
