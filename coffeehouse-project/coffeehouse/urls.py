@@ -21,8 +21,8 @@ from django.views.generic import TemplateView
 from coffeehouse.about import views as about_views
 
 urlpatterns = [
+    path('admin/doc', include('django.contrib.admindocs.urls')),
     path('admin/', admin.site.urls),
     path('', TemplateView.as_view(template_name='homepage.html')),
     url(r'^about/', about_views.contact),
-    path('admin/doc', include('django.contrib.admindocs.urls')),
 ]
