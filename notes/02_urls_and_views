@@ -136,7 +136,7 @@ CHAPTER 2 - DJANGO URLS AND VIEWS
             return render(request, 'stores/detail.html')
 
 
-    - We can pass extra paramters to a view in a dictionary as well:
+    - We can pass extra paramaters to a view in a dictionary as well:
 
         # Pass the 'location' parameter
         url(r'^stores/',stores_views.detail,{'location':'headquarters'})
@@ -231,7 +231,7 @@ CHAPTER 2 - DJANGO URLS AND VIEWS
 
 
         # Definition in view method
-        # The 'reverse' method looks up a url definition and substitutes it in
+        # The 'reverse' method looks up a url definition in urls.py by the 'name' attribute and substitutes it in
         from django.http import HttpResponsePermanentRedirect
         from django.core.urlresolvers import reverse
 
@@ -334,3 +334,70 @@ CHAPTER 2 - DJANGO URLS AND VIEWS
         <a href="{% url 'stores:about:index' store.id %}"> See about for {{store.name}} </a>
 
         
+
+- View Method Requests
+
+    - So far, we've used Django view methods and their input (a request object and parameters) as well as their
+        output (a direct response or relying on a template to generate a response).
+
+      Now, we'll take a deeper look at what's available in view method requests and the various alternatives to
+        generate view method responses.
+
+
+    - The 'request' object that is passed in to every view method is an instance of the 
+        'django.http.request.HttpRequest' class.  It contains information set by entities present before a view
+        method (user's web browser, web server that runs the application, or Django middleware class).
+
+      Here are some of it's most commonly used attributes and methods:
+
+        request.method                        # Contains HTTP method used for request
+
+        request.GET or request.POST           # Contains parameters added as part of a GET or POST request
+                                              # Parameters are enclosed in a 'django.http.request.Querydict' instance
+
+        request.POST.get('name', default=None)       # Gets the value of the name parameter in a POST request or gets
+                                                     #   None if the value is not present
+
+        request.GET.getlist('drink', default=None)   # Gets list of values for 'drink' parameter in a GET request  or
+                                                     #   gets None if the value is not present
+
+        request.META                          # Contains HTTP headers added by browsers or a web server as part of 
+                                              #   the request.  Parameters are enclosed in a dictionary where the keys
+                                              #   are HTTP header names.
+
+        request.META['REMOTE_ADDR']           # Gets a user's remote ip address
+
+        request.user                          # Contains information about a Django user (ie username, email) linked to
+                                              #   the request
+
+
+    - Once we're done extracting information from a 'request' reference and doing related business logic with it, (like
+        querying a database or fetching data from another REST service), we'll need to set up data in a view method to
+        send it out as part of the response.  
+
+      Once we have extracted the data we need, we create a dictionary with the data and pass it to the template.
+
+        # views.py
+        from django.shortcuts import render
+
+        def detail(request, stored_id='1', location=None):
+            STORE_NAME = 'Downtown'
+            store_address = {'street':'Main #385','city':'San Diego','state':'CA'}
+            store_amenities = ['WiFi','A/C']
+            store_menu = ((0,''),(1,'Drinks'),(2,'Food'))
+            values_for_template = {'store_name':STORE_NAME, 
+                                   'store_address':store_address, 
+                                   'store_amenities':store_amenities, 
+                                   'store_menu':store_menu}
+            return render(request, 'stores/detail.html', values_for_template)
+
+
+    - Finally, we can display the variables that have been passed to the template.
+
+        # Template
+        <h4>{{store_name}}</h4>
+        <p>{{store_address.street}}</p>
+        <p>{{store_address.city}}, {{store_address.state}}</p>
+        <hr />
+        <p>We offer: {{store_amenities.0}} and {{store_amenities.1}}</p>
+        <p>Menu includes : {{store_menu.1.1}} and {{store_menu.2.1}}</p>
