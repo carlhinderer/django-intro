@@ -1,0 +1,74 @@
+-----------------------------------------------------------
+CHAPTER 3 - DJANGO TEMPLATES
+-----------------------------------------------------------
+
+- Django Template Syntax
+
+    {{output_variable}}               # Output variable
+    {% tag %}                         # Tag
+    variable|filter                   # Values after | are filters
+
+
+
+- Auto-Escaping and Erring on the Safe Side
+
+    - By default, all Django templates are assumed to produce HTML.  For safety from various attacks in which
+        unintended code is executed, all text in Django templates is escaped.
+
+      In the case where a Django template has to output CSV, XML, JSON content, we'll have to explicitly
+        disable the auto-escaping.
+
+
+    - These are the characters that are auto-escaped by default:
+
+        Original character     Escaped to
+        -------------------------------------
+        <                      &lt;
+        >                      &gt;
+        '(single quote)        '
+        " (double quote)       &quot;
+        &
+        &amp
+
+
+    - There are 3 levels of auto-escaping:
+
+        1. Safe = None of the characters from the table are escaped.  The content is output 'as is'.
+
+        2. Escape = All characters from the table are escaped.
+
+        3. Auto-escape on    = Scopes in which auto-escaping is turned on or off
+           Auto-escape off
+
+
+
+- Django Template Configuration
+
+    - The default 'TEMPLATES' variable in 'settings.py' looks like:
+
+        TEMPLATES = [
+            {
+                'BACKEND': 'django.template.backends.django.DjangoTemplates',
+                'DIRS': [],
+                'APP_DIRS': True,
+                'OPTIONS': {
+                    'context_processors': [
+                        'django.template.context_processors.debug',
+                        'django.template.context_processors.request',
+                        'django.contrib.auth.context_processors.auth',
+                        'django.contrib.messages.context_processors.messages',
+                    ],
+                },
+            },
+        ]
+
+
+        BACKEND                 = specifies what kind of templates to use
+        DIRS and APP_DIRS       = tell Django where to locate templates
+        OPTIONS                 = which context processors to enable for a Django project
+
+
+    - The 'APP_DIRS' variable specifies whether to look for Django app subfolders named 'templates'
+        when searching.
+
+    - The 'DIRS' variable is used to specify a list of directories to search in for templates.
