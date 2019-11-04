@@ -339,7 +339,7 @@ CHAPTER 1 - INTRO TO DJANGO
         # coffeehouse/urls.py
         from coffeehouse.about import views as about_views
 
-        urlpatters = [
+        urlpatterns = [
             ... ,
             url(r'^about/', about_views.contact),
         ]
