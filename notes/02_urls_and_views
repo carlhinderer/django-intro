@@ -746,3 +746,90 @@ CHAPTER 2 - DJANGO URLS AND VIEWS
     
             Each time a Django application raises a 404 error, this middleware checks the redirects database for the requested 
               url as a last resort.
+
+
+
+- Middleware Structure and Execution Process
+
+    - A Django middleware class has 2 required methods and 3 optional methods that execute at different
+        points in the view request/response life cycle.
+
+
+    - This is a sample middleware class with its various parts.
+
+        class CoffeehouseMiddleware(object):
+
+            def __init__(self, get_response):
+                self.get_response = get_response
+                # One-time configuration and initialization on start-up
+        
+            def __call__(self, request):
+                # Logic executed on a request before the view (and other middleware) is called.
+        
+                # get_response call triggers next phase
+                response = self.get_response(request)
+        
+                # Logic executed on response after the view is called.
+        
+                # Return response to finish middleware sequence
+                return response
+        
+            def process_view(self, request, view_func, view_args, view_kwargs):
+                # Logic executed before a call to view
+                # Gives access to the view itself & arguments
+        
+            def process_exception(self,request, exception):
+                # Logic executed if an exception/error occurs in the view
+        
+            def process_template_response(self,request, response):
+                # Logic executed after the view is called,
+                # ONLY IF view response is TemplateResponse
+
+
+    - Required Methods:
+
+        __init__         # Must declare a 'get_response' input, which represents a reference to a prior
+                         #   middleware class response.  The 'get_response' input is assigned to an
+                         #   instance variable used later in the processing logic.
+
+        __call__         # Called on every application request
+
+
+
+    - In summary, the execution process for a single middleware class is the following:
+
+        1. '__init__' method triggered (on server startup)
+
+        2. '__call__' method triggered (on every request)
+
+        3. If declared, 'process_view()' method triggered
+
+        4. View method starts with 'self.get_response(request)'in '__call__'
+
+        5. If declared, 'process_exception()' method triggered when exception occurs in view
+
+        6. View method finishes
+
+        7. If declared, 'process_template_response()' triggered when view returns 'TemplateResponse' 
+
+
+
+    - Middleware Execution Process:
+
+
+         ServerStart Up               HttpRequest                                   HttpResponse 
+
+           i                                |          SecurityMiddleware                ^
+           n                                |          SessionMiddleware                 |
+           i              call              |          CommonMiddleware                  |    process exception
+           t              process view      |          CsfrViewMiddleware                |    process template response
+                          call getresponse  |          AuthenticationMiddleware          |    call after getresponse
+                                            |          MessageMiddleware                 |
+                                            |          XFrameOptionsMiddleware           |
+                                            v                                            |
+              
+                                                            VIEW METHOD              
+
+
+
+- 
