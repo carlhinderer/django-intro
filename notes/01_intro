@@ -89,7 +89,7 @@ CHAPTER 1 - INTRO TO DJANGO
 
 
     - It's a best practice to rename the top-level base name so that it doesn't match the project directory,
-        to avoid confusion.
+        to avoid confusion.  We rename the project directory to 'coffeehouse-project'.
 
 
     - To start the development web server:
