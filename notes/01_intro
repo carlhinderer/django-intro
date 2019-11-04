@@ -200,7 +200,7 @@ CHAPTER 1 - INTRO TO DJANGO
 
 
     - Note that in Django 2, 'path' is becoming preferred over 'url', which will eventually be
-        deprecated.  'path' has simpler, more readable syntax.  'url' is actually an aliax for 're_path'.
+        deprecated.  'path' has simpler, more readable syntax.  'url' is actually an alias for 're_path'.
 
         # Comparison
         url(r'^articles/(?P<year>[0-9]{4})/$', views.year_archive)
