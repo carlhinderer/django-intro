@@ -939,3 +939,98 @@ CHAPTER 2 - DJANGO URLS AND VIEWS
         the_req_messages = messages.get_messages(request)
         for msg in the_req_messages:
             do_something_with_the_flash_messages(msg)
+
+
+
+- Class-Based Views
+
+    - Previously, we saw that we could define a URL that renders a template directly without needing a view
+        method in between.  This is due to a class-based view 'django.views.generic.TemplateView'.
+
+
+    - Unlike Django view methods backed by the HttpRequest input parameter and HttpResponse output parameter,
+        class-based views offer their functionality through full-fledged Python classes.  They are an 
+        alternative to regular view methods.
+
+
+    - For convenience, there are a few built-in class-based views.
+
+        # Parent class of all class-based views, providing core functionality.
+        django.views.generic.View
+    
+        # Allows a url to return the contents of a template, without the need of a view.
+        django.views.generic.TemplateView
+    
+        # Allows a url to perform a redirect, without the need of a view.
+        django.views.generic.RedirectView
+    
+        # Allows a view to return date-based object results, without the need to explicitly perform Django 
+        #   model queries.
+        django.views.generic.ArchiveIndexView
+        django.views.generic.YearArchiveView
+        django.views.generic.MonthArchiveView
+        django.views.generic.WeekArchiveView
+        django.views.generic.DayArchiveView
+        django.views.generic.TodayArchiveView
+        django.views.generic.DateDetailView
+    
+        # Allows a view to execute Create-Read-Update-Delete (CRUD) operations , without the need to explicitly 
+        #   perform Django model queries.
+        django.views.generic.CreateView
+        django.views.generic.DetailView
+        django.views.generic.UpdateView
+        django.views.generic.DeleteView
+        django.views.generic.ListView
+        django.views.generic.FormView
+    
+
+
+- Creating Class-Based Views
+
+    - Here, we'll create a class for displaying the homepage that inherits from 'TemplateView'.
+
+        # views.py
+        from django.views.generic import TemplateView
+        
+        class AboutIndex(TemplateView):
+              template_name = 'index.html'
+        
+              def get_context_data(self, **kwargs):
+                 # **kwargs contains keyword context initialization values (if any)
+                 # Call base implementation to get a context
+                 context = super(AboutIndex, self).get_context_data(**kwargs)
+                 # Add context data to pass to template
+                 context['aboutdata'] = 'Custom data'
+                 return context
+        
+        #urls.py
+        from coffeehouse.about.views import AboutIndex
+        
+        urlpatterns = [
+            url(r'^about/index/',AboutIndex.as_view(),{'onsale':True}),
+        ]
+
+
+    - Here is a more complex example:
+
+        # views.py
+        from django.views.generic import View
+        from django.http import HttpResponse
+        from django.shortcuts import render
+        
+        class ContactPage(View):
+            mytemplate = 'contact.html'
+            unsupported = 'Unsupported operation'
+        
+            def get(self, request):
+                return render(request, self.mytemplate)
+        
+            def post(self, request):
+                return HttpResponse(self.unsupported)
+        
+        #urls.py
+        from coffeehouse.contact.views import ContactPage
+        
+        urlpatterns = [
+            url(r'^contact/$',ContactPage.as_view()),
+        ]
