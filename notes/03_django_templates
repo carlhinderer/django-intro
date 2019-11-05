@@ -293,3 +293,81 @@ CHAPTER 3 - DJANGO TEMPLATES
 
 
     - Now, the custom 'SALE_ITEMS' key becomes available to all Django templates.
+
+
+
+- Built-in Django Filters
+
+    - Django filters are designed to formate template variables.  The '|' pipe operator is used to apply 
+        Django filters.  
+
+        # Use a filter on a variable
+        {{ variable | filter }}
+
+        # Chain filters
+        {{ variable | filter | filter }}
+
+
+    - The 'date' filter takes a datetime object and displays it as a date.  There are many arguments that
+        can be passed in to control formatting.
+
+        # Display a date
+        {{ variable | date }}
+
+        # Display date with formatting options
+        {{ variable | date:"F jS o" }}
+
+
+    - The 'time' filters format the time of a datetime object.  
+
+        # Display a time
+        {{ variable | time }}
+
+        # Display a time interval
+        {{ variable | timesince }}
+        {{ variable | timesince: othervariable }}
+        {{ variable | timeuntil: othervariable }}
+
+
+    - These filters are available for strings, lists, and numbers:
+
+        # 'add' filter adds values
+        {{ variable  |add: 'hello world'}}
+
+        # 'default' filter specifies a default value if variable is falsy
+        {{ variable | default: 'No value' }}
+
+        # 'default_if_none' filter specifies a default if variable is None
+        {{ variable | default_if_none: 'No value' }}
+
+        # 'length' filter obtains the length of a value
+        {{ variable | length }}
+
+        # 'length_is' evaluates whether the length of a value is equal to an argument
+        {% if variable | length_is: "7" %}
+
+        # 'make_list' creates a list from a string or number
+        {% with mycharlist='mocha' | make_list %}      # ['m', 'o', 'c', 'h', 'a']
+        {% with myintlist=724 | make_list %}           # ['7', '2', '4']
+
+        # 'yes_no' maps the value of a variable from True/False/None to 'Yes'/'No'/'Maybe'
+        {{ variable | yes_no }}
+
+
+    - These filters are available for numbers:
+
+        # 'divisibleby' returns whether variable is divisible by argument
+        {{ variable | divisibleby: 5 }}
+
+        # 'filesizeformat' converts a number of bytes into a file size string
+        {{ variable | filesizeformat }}
+
+        # 'floatformat' rounds a floating-point value to a specified number of decimal places
+        {{ variable | floatformat: 3 }}
+
+        # 'get_digit' outputs digits from a number variable
+        {{ variable | get_digit: "1"}}       # Returns ones digit
+        {{ variable | get_digit: "2" }}      # Returns tens digit
+
+        # 'phone2numeric' converts letters in a phone number to digits
+        {{ variable | phone2numeric }}
