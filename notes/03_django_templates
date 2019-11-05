@@ -180,3 +180,82 @@ CHAPTER 3 - DJANGO TEMPLATES
 
         # Pass variables to included template
         {% include "footer.html" with year="2013" copyright="Creative Commons" %}
+
+
+
+- Built-in Context Processors
+
+    - By default, Django templates are enabled to have access to various variables.  This eliminates the need
+        to constantly declare widely used variables in every Django view or as url extra options.  These
+        variables are made available through template context processors.
+
+      Django template context processors are explicitly defined in a project's 'settings.py' file.  
+
+
+    - By default, new Django projects are enabled with 4 context processors:
+
+        1. Django Debug Context Processor
+
+             - Used for debugging
+             - Variables: 
+                 'debug' = value of DEBUG in 'settings.py'
+                 'sql_queries' = database connection details run by backing method view
+
+        2. Django Request Context Processor
+
+             - Exposes variables related to request
+             - Variables:
+                 'request.GET.' = contains a request's HTTP GET parameters
+                 'request.POST.' = contains a request's HTTP POST parameters
+                 'requets.COOKIES.' = contains a request's HTTP COOKIES
+                 'request.CONTENT_TYPE' = contains a request's HTTP Content-type header
+                 'request.META' = contains a request's HTTP META data
+                 'request.REMOTE_ADDR' = contains a request's HTTP remote address
+
+        3. Django Auth Context Processor
+
+             - Exposes variables related to authentication logic
+             - Variables:
+                 'user' = contains username, email
+                 'perms' = contains app permissions
+
+        4. Django Messages Context Processor
+
+             - Exposes variables related to the Django messages framework
+             - Variables:
+                 'messages' = contains messages added through the Django messages framework
+                 'DEFAULT_MESSAGE_LEVELS' = contains mapping of level names to numbers
+
+
+
+- Other Built-in Django Context Processors
+
+    - Django i18n Context Processor
+
+        - Exposes variables related to internationalization logic
+        - Variables:
+            'LANGUAGES'
+            'LANGUAGE_CODE'
+            'LANGUAGE_BIDI'
+
+    - Django Media Context Processor
+
+        - Exposes variables related to media resources
+        - Variables:
+            'MEDIA_URL'
+
+    - Django Static Context Processor
+
+        - Exposes a variable related to static resources
+        - Variables:
+            'STATIC_URL'
+
+    - Django tz Context Processor
+
+        - Exposes project's time zone
+        - Variables:
+            'TIME_ZONE'
+
+    - Django CSRF Context Processor
+
+        - The CSRF context processor adds the 'csrf_token' variable to all requests.
