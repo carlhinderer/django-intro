@@ -144,3 +144,39 @@ CHAPTER 3 - DJANGO TEMPLATES
              'loader': 'django.template.oaders.cached.Loader',
              ...
          }
+
+
+
+- Creating Reusable Templates
+
+    - Templates tend to have common sections that are equally used across multiple instances.  Examples
+        include menus, header and footer, advertisements, etc.
+
+      With reusable Django templates, you can define common sections on separate templates and reuse them
+        inside other templates.  They also allow you to override content on a page-by-page basis if
+        you need to.
+
+
+    - Using {% block %} Tags
+
+        # base.html template
+        <!DOCTYPE html>
+        <html lang="en">
+          <head>
+              <title>{% block title%}Default title{% endblock title %}</title>
+                  <meta name="description" content="{% block metadescription%}{% endblock metadescription %}">
+                  <meta name="keywords" content="{% block metakeywords%}{% endblock metakeywords %}">
+
+
+        # extends.html template
+        {% extends "base.html" %}
+        {% block title %}Coffeehouse home page{% endblock title %}
+
+
+    - Using The {% include %} Tag
+
+        # Include a template in another template
+        {% include "footer.html" %}
+
+        # Pass variables to included template
+        {% include "footer.html" with year="2013" copyright="Creative Commons" %}
