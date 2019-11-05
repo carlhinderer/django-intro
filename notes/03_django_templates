@@ -258,4 +258,38 @@ CHAPTER 3 - DJANGO TEMPLATES
 
     - Django CSRF Context Processor
 
-        - The CSRF context processor adds the 'csrf_token' variable to all requests.
+        - The CSRF context processor adds the 'csrf_token' variable to all requests.  This variable is
+            used by the {% csrf_token %} template tag to protect against Cross Site Request Forgeries.
+
+          Due to its security significance, the CSRF context processor is always enabled and cannot be
+            disabled.
+
+
+
+- Custom Context Processors
+
+    - A Django custom context processor is structured like a regular Python method with an 'HttpRequest'
+        argument.  It returns a dictionary.
+
+        # Custom context processor
+        def onsale(request):
+            # Create fixed data structures to pass to template
+            sale_items = {'Monday':'Mocha 2x1','Tuesday':'Latte 2x1'}
+            return {'SALE_ITEMS': sale_items}
+
+
+    - Also, the context processor must be added to the 'settings.py'.
+
+        # settings.py
+        'OPTIONS': {
+            'context_processors': [
+                'coffeehouse.stores.processors.onsale',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        }
+
+
+    - Now, the custom 'SALE_ITEMS' key becomes available to all Django templates.
