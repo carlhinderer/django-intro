@@ -72,3 +72,75 @@ CHAPTER 3 - DJANGO TEMPLATES
         when searching.
 
     - The 'DIRS' variable is used to specify a list of directories to search in for templates.
+
+
+
+- Invalid Template Variables
+
+    - By default, Django templates do not throw an error when they contain invalid variables.  For
+        instance, if you have {{datee}} in your template when you mean to have {{date}}, no error
+        will be thrown.  The value will just be an empty string after rendering.
+
+
+    - To enable informing of invalid variable errors, we use the 'string_if_invalid' option.  This should only
+        be used for debugging.
+
+        # settings.py
+        TEMPLATES = [
+                ... ,
+                'OPTIONS': {
+                    'string_if_invalid': "**** WARNING INVALID VARIABLE %s ****",
+                    ...
+                }
+        ]
+
+
+
+- Other TEMPLATES Options
+
+    - To omit template details from error pages:
+
+        'OPTIONS': {
+            'debug': FALSE,
+            ...
+        }
+
+
+    - To turn off auto-escape:
+
+        'OPTIONS': {
+            'autoescape': FALSE,
+            ...
+        }
+
+
+    - To set a template-specific file charset:
+
+        'OPTIONS': {
+            'file_charset': ...,
+            ...
+        }
+
+
+    - To make tags or filters available to all templates, use the 'builtins' field:
+
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+            'builtins': [
+                 'coffeehouse.builtins',
+                 'thirdpartyapp.customtags.really_useful_tags_and_filters',
+            ],
+        }
+
+
+    - To use a custom template loader:
+
+         'OPTIONS': {
+             'loader': 'django.template.oaders.cached.Loader',
+             ...
+         }
