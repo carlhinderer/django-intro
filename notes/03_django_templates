@@ -371,3 +371,71 @@ CHAPTER 3 - DJANGO TEMPLATES
 
         # 'phone2numeric' converts letters in a phone number to digits
         {{ variable | phone2numeric }}
+
+
+    - These filters are available for strings:
+
+        # 'capfirst' capitalizes the first letter of a string variable
+        {{ variable | capfirst }}
+
+        # 'cut' removes all values of a given argument from a string variable
+        {{ variable | filter: 'mocha' }}      # 'mocha' is removed from string
+
+        # 'line_numbers' adds line numbers to each string value separated by a newline
+        {{ variable | linenumbers }}
+
+        # 'lower' converts a string to lowercase
+        {{ variable | lower }}
+
+        # 'stringformat' formats a string with Python formatting syntax
+        {{ variable | stringformat:"03d" }}
+
+        # 'pluralize' returns a plural suffix based on the value of an argument
+        "We have {{store_count}} business{{ store_count | pluralize:'es' }}"
+
+        # 'slugify' converts a string to an ASCII-type string
+        # lowercases, strips whitespace, converts spaces to hyphens
+        {{ variable | slugify }}
+
+        # 'title' converts the first letter of each word to uppercase
+        {{ variable | title }}
+
+        # 'truncatechars' truncates a string to a given number of characters
+        {{ variable | truncatechars: 20 }}
+
+        # 'truncatechars_html' will truncate, but without leaving open HTML tags
+        {{ variable | truncatechars_html: 20 }}
+
+        # 'truncatewords' and 'truncatewords_html' truncate to a given number of words
+        {{ variable | truncatewords: 3 }}
+        {{ variable | truncatewords_html: 3 }}
+
+        # 'upper' converts a string to uppercase
+        {{ variable | upper }}
+
+        # 'wordcount' counts the words in a string
+        {{ variable | wordcount }}
+
+
+    - These filters are available for lists and dictionaries:
+
+        # 'dictsort' sorts a dictionary by a key argument
+        {{ variable | dictsort: 'name' }}
+
+        # 'dictsortreversed' sorts a dictionary in reverse order
+        {{ variable | dictsortreversed: 'name' }}
+
+        # 'join' joins a list with a string
+        {{ ['a', 'b', 'c'] | join:'--' }}        # Returns 'a--b--c'
+
+        # 'first', 'last', and 'random' return the first/last/random item in a list
+        {{ variable | first }}
+        {{ variable | last }}
+        {{ variable | random }}
+
+        # 'slice' returns the slice of a list
+        {{ ['a', 'b', 'c'] | slice: "2"}}        # Returns ['a', 'b']
+
+        # 'unordered_list' outputs an HTML unordered list from a list variable
+        variable = ["Stores",["San Diego",["Downtown","Uptown","Midtown"]]]
+        {{variable|unordered_list}}
