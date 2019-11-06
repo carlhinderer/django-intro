@@ -537,3 +537,81 @@ CHAPTER 3 - DJANGO TEMPLATES
 
             # Output
              Visit <a href="http://localhost/drinks" rel="nofollow">http://localhost/...</a>
+
+
+
+- Built-in Django Tags
+
+    - Django has several built-in tags that offer immediate access to elaborate operations on Django
+        templates.  
+
+
+    - Dates:
+
+        # Current system time
+        {% now %}
+
+
+    - Forms:
+
+        # Provides a string to prevent cross-site scripting
+        {% csrf_token %}
+
+
+    - Comparison Operators
+
+        {% if %}
+        {% elif %}
+        {% else %}
+
+        # Example
+        {% if drinks %}
+            We have drinks
+        {% elif drinks_on_sale %}
+            We have drinks on sale!
+        {% else %}
+            No drinks, sorry
+        {% endif %}
+
+
+        # Outputs first variable that's not empty
+        {% firstof %}
+        {% firstof var1 var2 var3 "All vars are empty." %}
+
+
+    - Loops
+
+        # Iterates over items
+        {% for %}
+
+        # Optional tag for what to return if items is empty
+        {% empty %}
+
+        # Example
+        {% for drink in drinks %}
+          <li>{{ drink.name }}</li>
+        {% empty %}
+          <li>No drinks, sorry</li>
+        {% endfor %}
+
+
+        # Other Iteration Tags
+        {% ifchanged %}
+        {% cycle %}
+        {% resetcycle %}
+        {% regroup %}
+
+
+    - Python and Filter Operations
+
+        # The filter tag is used to apply Django filters to template sections
+
+        # Everything inside the tags is lowercased
+        {% filter lower %}
+            Stuff to Lowercase...
+        {% endfilter %}
+
+
+        # The with tag lets you define variables in the context of Django templates
+        {% with drink_with_tax=drink.cost*1.07 %}
+        {% endwith %}
