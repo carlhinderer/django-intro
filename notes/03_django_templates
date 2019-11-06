@@ -438,4 +438,102 @@ CHAPTER 3 - DJANGO TEMPLATES
 
         # 'unordered_list' outputs an HTML unordered list from a list variable
         variable = ["Stores",["San Diego",["Downtown","Uptown","Midtown"]]]
-        {{variable|unordered_list}}
+        {{ variable | unordered_list }}
+
+
+    - These filters are for spacing and special characters:
+
+        # 'addslashes' escapes all quotes
+        {{ variable | addslashes }}
+
+        # 'center' centers a value and pads it with whitespace
+        {{ variable | center: '15'}}
+
+        # 'ljust' and 'rjust' align a value to the left/right and pad it with whitespace
+        {{ variable | ljust: '15'}}
+        {{ variable | rjust: '15' }}
+
+        # 'escape' escapes HTML characters from a value
+        {{ variable | escape }}
+
+        # 'escapejs' escapes characters into Unicode strings often used for Javascript strings
+        {{ variable | escapejs }}
+
+        # 'force_escape' works like 'escape', but its result can be immediately piped into other filters
+        {{ variable | force_escape }}
+
+        # 'linebreaks' replaces single '\n' with '<br />', and multiple '\n' with '</p>'
+        {{ variable | linebreaks }}
+
+        # 'linebreaksbr' replaces all '\n' with '<br />'
+        {{ variable | linebreaksbr }}
+
+        # 'striptags' removes all HTML tags from a string
+        {{ variable | striptags }}
+
+        # 'safe' marks a string as not requiring HTML escaping
+        {{ variable | safe }}
+
+        # 'safeseq' applies the 'safe' filter to each element of a list
+        {{ stores | safeseq | join: ', ' }}
+ 
+        # 'wordwrap' wraps words at a given line length limit
+        {{ variable | wordwrap: 12 }}
+
+
+    - These filters are used for development and testing:
+
+        # 'pprint' outputs a formatted representation of an object
+        {{ variable | pprint }}
+
+
+    - These filters are used for urls:
+
+        - 'iriencode' converts an IRI (Internationalized Resource Identifier) to a string that is suitable
+            for inclusion in a URL.
+
+            # Example
+            variable = '?type=cold&size=large'
+            {{ variable | iriencode }}
+
+            # Output
+            ?type=cold&amp;size=large
+
+
+        - 'urlencode' escapes a value for use in a URL.
+
+            # Example
+            variable = 'http://localhost/drinks?type=cold&size=large'
+            {{ variable | urlencode }}
+
+            # Output
+            http%3A//localhost/drinks%3Ftype%3Dcold%26size%3Dlarge
+
+
+        - 'urlize' converts text urls or email addresses into clickable HTML links.
+
+            # Example 
+            variable = 'Visit http://localhost/drinks'
+            {{ variable | urlize }}
+
+            # Output
+            Visit <a href="http://localhost/drinks" rel="nofollow">http://localhost/drinks</a>
+
+
+            # Example
+            variable = 'Contact support@coffeehouse.com'
+            {{ variable | urlize }}
+
+            # Output
+            <a href="mailto:support@coffeehouse.com">support@coffeehouse.com</a>
+
+
+        - 'urlizetrunc' converts text URLs and emails into clickable HTML links, but truncates into an
+            ellipsis.
+
+            # Example
+            variable = 'Visit http://localhost/drinks'
+            {{ variable | urlizetrunc: 20 }}
+
+            # Output
+             Visit <a href="http://localhost/drinks" rel="nofollow">http://localhost/...</a>
