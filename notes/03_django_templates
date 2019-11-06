@@ -673,3 +673,42 @@ CHAPTER 3 - DJANGO TEMPLATES
 
         # Used to build urls from predefined values in the 'urls.py'
         {% url %}
+
+
+
+- Custom Filters
+
+    - The simplest custom filter requires just a Python method decorated with '@register.filter()'.
+
+        # Custom filter with no arguments
+        from django import template
+        register = template.Library()
+
+        @register.filter()
+        def boldcoffee(value):
+            return '<b>%s</b>' % value
+
+
+        # Then we can use the filter
+        {{ variable | boldcoffee }}
+
+
+    - Here is a filter with arguments:
+
+        @register.filter()
+        def coffee(value, arg='muted'):
+            return '<span class='%s>%s</span> %(arg, value)
+
+
+    - Django custom filters can be stored in one of 2 locations:
+
+        1. Inside apps = Stored in .py files located insdie Django apps in a folder called 
+                           'templatetags'
+
+        2. Any project location = Add any files to the 'libraries' field in 'OPTIONS' of the 
+                                    'TEMPLATES' variable in 'settings.py'
+
+
+    - To make use of Django custom filters in templates, you use the {% load %} tag.
+
+        {% load store_format_tf %}
