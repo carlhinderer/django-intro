@@ -615,3 +615,61 @@ CHAPTER 3 - DJANGO TEMPLATES
         # The with tag lets you define variables in the context of Django templates
         {% with drink_with_tax=drink.cost*1.07 %}
         {% endwith %}
+
+
+    - Spacing and Special Characters
+
+        # Used to escape HTML characters
+        {% autoescape %}
+        {% endautoescape %}
+
+        # Removes whitespace between HTML tags, including tabs and newlines
+        {% spaceless %}
+        {% endspaceless %}
+
+        # Used to output reserved Django template characters {% %} {{ }} { } {# #}
+        {% templatetag %}
+
+        # Any text inside is bypassed by Django
+        {% verbatim %}
+        {% endverbatim %}
+
+        # Calculates the ratio of a value to a maximum values
+        {% widthratio %}
+
+        # Used to display random Latin text
+        {% lorem %}
+
+
+    - Template Structures
+
+        # Defines sections that can be overridden on different templates
+        {% block %}
+
+        # Comment Section
+        {% comment %}
+        {% endcomment %}
+
+        # Single Line Comment
+        {# #}
+
+        # Reuse the layout of another template
+        {% extends %}
+
+        # Used to embed a template on another template
+        {% include %}
+
+        # Used to load custom tags and filters
+        {% load %}
+
+
+    - Development and Testing
+
+        # The debug tag outputs debugging information that includes variables and modules
+        {% debug %}
+
+
+    - Urls
+
+        # Used to build urls from predefined values in the 'urls.py'
+        {% url %}
