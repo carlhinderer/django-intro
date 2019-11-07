@@ -138,7 +138,56 @@ CHAPTER 4 - JINJA TEMPLATES
         {% url %}
 
 
-- New Concepts and Features in Jinja and Django Templates
+
+- New Concepts and Features in Jinja vs Django Templates
+
+    - More Built-in Filters and Tests and More Python-like Environment
+
+        - Jinja templates offer a variety of built-in filters and tests (ie type-checking)
+        - Access to complex data types like objects and dictionaries is much better (ie select and map)
+        - More Python-like syntax
+
+
+    - Global Functions
+
+        - Jinja supports a series of global functions (ie Python 'range' function)
+
+
+    - Flexible Tag Nesting, Conditionals, and References
+
+        - Inline and conditional nesting of tags is supported in Jinja
+
+
+    - Macros
+
+        - Macros allow you to define function-like snippets with complex layouts that can be called from 
+            any template
+
+
+    - Flexible Variable Assignment in Templates
+
+        - The {% set %} tag can be used to define variables that have scope until the end of the template
+        - With Django templates, every variable has to be closed manually with {% with %} ... {% endwith %}
+
+
+    - Line Statements
+
+        - Line statements are an alternative to tag syntax.  
+
+            Iterate with a tags:
+
+            {% for item in items %}
+              ...
+            {% endfor %}
+
+
+            Iterate with line statements:
+
+            # for item in items
+               ...
+            # endfor
+
+
 
 - Jinja Template Configuration in Django
 
