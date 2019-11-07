@@ -191,6 +191,63 @@ CHAPTER 4 - JINJA TEMPLATES
 
 - Jinja Template Configuration in Django
 
+    - First, we need to install the jinja core package.
+
+        $ pip install Jinja2
+
+
+    - Next, we need to configure Jinja in the 'settings.py'.
+
+        import os
+        BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
+        
+        TEMPLATES = [
+            {
+                'BACKEND':'django.template.backends.jinja2.Jinja2',
+                'DIRS': ['%s/jinjatemplates/'% (PROJECT_DIR),],
+                'APP_DIRS': True,
+                },
+            {
+                'BACKEND': 'django.template.backends.django.DjangoTemplates',
+                'DIRS': [],
+                'APP_DIRS': True,
+                'OPTIONS': {
+                    'context_processors': [
+                        'django.template.context_processors.debug',
+                        'django.template.context_processors.request',
+                        'django.contrib.auth.context_processors.auth',
+                        'django.contrib.messages.context_processors.messages',
+                    ],
+                },
+            },
+        ]
+
+
+
+- Template Search Paths
+
+    - The APP_DIRS variable permits the lookup of templates in a special app subdirectory named 'jinja2'.
+        However, remember that the template search path is not aware of app namespaces.  
+
+      For instance, if 2 apps both have an template named 'index.html', the one with the topmost declared
+        app will always get rendered.
+
+
+    - To get around this, it's often useful to declare a folder with the app name inside of the 'jinja2'
+        directory to avoid name clashes.
+
+        + about (app)
+            + __init__.py
+            + models.py
+            + tests.py
+            + views.py
+            + jinja2
+                + about
+                    + index.html
+
+
+
 - Creating Reusable Jinja Templates
 
 - Jinja Globals
