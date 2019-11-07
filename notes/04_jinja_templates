@@ -1,0 +1,155 @@
+-----------------------------------------------------------
+CHAPTER 4 - JINJA TEMPLATES
+-----------------------------------------------------------
+
+- Jinja Advantages and Disadvantages 
+
+    - Advantages of Using Jinja
+
+        1. Jinja compiles template source to Python byte code when it's first loaded, to the 
+             template is only parsed once.  Jinja also supports ahead-of-time compilation.
+
+        2. Jinja templates are very flexible in what they can contain, including macros and
+             more Python-like constructs.
+
+        3. Jinja templates are similar to Django templates.
+
+        4. Jinja templates support asynchronous execution.
+
+
+    - Disadvantages of Using Jinja
+
+        5. Jinja has much fewer third-party packages, since Django templates have been around
+             much longer.
+
+        6. Jinja has some new concepts that require additional practice to understand.
+
+
+
+- What Works the Same in Jinja and Django Templates
+
+        - Variables and blocks
+        - Conditionals and loops
+        - Comments
+        - Spacing and Special Characters
+
+
+
+- What Works Differently in Jinja and Django Templates
+
+    - Filters
+
+        Although Jinja uses the pipe operator to apply filters to variables, Jinja filters are technically
+          classified into filters and tests.  
+
+          # In Django templates tests are filters
+          {% variable | divisibleby: '5' %}
+
+          # Jinja conditional syntax
+          {% if variable is divisibleby(5) %}
+
+
+    - Context Processors
+
+        Context processors give Django templates access to sets of variables across every template in a project.
+          In Jinja, this is achieved with 'global variables'.
+
+
+    - No date elements
+
+        Jinja doesn't have any out-of-the-box tags or filters to work with date and time.  For simple time
+          formatting, we can just use the Python 'format' method.  For more complex formatting, we'll have to 
+          write custom tags and filters.
+
+
+    - The {% comment %} Tag Is Not Supported
+
+        {# #} is used for both single and multi-line comments in Django.
+
+
+    - The {% load %} Tag Is Not Supported
+
+        The {% load %} tag is not necessarily in Jinja, because custom tags and filters are registered 
+          globally and are automatically accessible to all Jinja templates.
+
+
+    - Use {{ super() }} Instead of {{ block.super }}
+
+        # Access contents of parent's template block in Django templates
+        {{ block.super }}
+
+        # Access contents of parent's template block in Jinja
+        {{ super() }}
+
+
+    - The {% csrf_token %} Tag Is Not Supported
+
+        # Add csrf token in Django Templates
+        {% csrf_token %}
+
+        # Add csrf token in Jinja
+        {{ csrf_input }}
+
+
+    - The {% for %} is Different
+
+        Jinja uses the same {% for %} syntax for loops, but the variables available in the loop context are 
+          a bit different.
+ 
+
+    - The {% empty %} Tag Is Not Supported
+
+        The {% empty %} tag is not supported in loops.  Use {% else %} instead.
+
+
+    - The {% groupby %} Tag Is Not Supported
+
+        # groupby tag is used to rearrange dictionaries in Django templates
+        {% groupby %}
+
+        # groupby filter is used in Jinja
+        {{ variable | groupby }}
+ 
+
+    - The {% cycle %} Tag Is Not Supported
+
+        # cycle tag is used to cycle over a list of values in Django templates
+        {% cycle %}
+
+        # 'loop.cycle' method available in for loops is used in Jinja instead
+        loop.cycle
+
+
+    - The {% lorem %} Tag Is Not Supported
+
+        # lorem tag is used to generate random text in Django templates
+        {% lorem %}
+
+        # in Jinja the 'lipsum' function is used
+        lipsum
+
+
+    - A Few Other Tags Are Not Supported
+
+        # Other tags not supported in Jinja
+        {% static %}
+        {% trans %}
+        {% blocktrans %}
+        {% url %}
+
+
+- New Concepts and Features in Jinja and Django Templates
+
+- Jinja Template Configuration in Django
+
+- Creating Reusable Jinja Templates
+
+- Jinja Globals
+
+- Jinja Built-In Tags
+
+- Custom Filters and Tests in Jinja
+
+- Jinja Extensions
+
+- Jinja Policies
