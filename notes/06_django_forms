@@ -65,9 +65,60 @@ CHAPTER 6 - DJANGO FORMS
 
 
 
-- Functional Web Form Syntax
+- Functional Web Form Syntax for Django Forms
+
+    - Here is a functional form with the enclosing tags:
+
+        # about/contact.html
+        <form method="POST">
+            {% csrf_token %}
+            <table>
+                {% form.as_table %}
+            </table>
+            <input type='submit' value='Submit form' />
+        </form>
+
+
+    - Django forces you to create the <form> tag, since it's attributes dictate much of a web form's
+        behavior.
+
+      Note that we have omitted the 'action' attribute.  By default, it is set to use the same URL as
+        the GET request that returned this form.  To use a different url, we set the 'action'
+        maunally.
+
+        action='/urltoprocessform/'
+
+
+    - The {% csrf_token %} should be used on all POST requests submitted via POST and processed by 
+        Django.
+
+
 
 - Django View Method To Process Django Form
+
+    - Here is the modified version of our view method:
+
+        # views.py in 'contact' app
+        from django.shortcuts import render
+        from django.http import HttpResponseRedirect
+        from .forms import ContactForm
+
+        def contact(request):
+            if request.method == 'POST':
+                # POST, generate form data from the request
+                form = ContactForm(request.POST)
+
+                # Check if its valid
+                if form.is_valid():
+                    # Process data, insert into DB, generate email, etc.
+                    # Redirect to a new url
+                    return HttpResponseRedirect('/about/contact/thankyou')
+            else:
+                # GET request
+                form = ContactForm()
+            return render(request, 'about/contact.html', {'form': form})
+
+
 
 - CSRF and Django
 
