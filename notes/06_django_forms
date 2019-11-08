@@ -180,7 +180,107 @@ CHAPTER 6 - DJANGO FORMS
 
 
 
-- Django Form Processing
+- Initializing Forms
+
+    - An empty form without user data is known as 'unbound'.  Once a form is populated with user data, 
+        it is a 'bound' form.
+
+
+    - When users request a page backed by a Django form they're sent an unbound form.  It is possible to
+        add pre-filled values to the form.
+
+      There are 3 options for doing this:
+
+        1. Initialize the form with a dictionary of values via the 'initial' argument
+
+             def contact(request):
+                 if request.method == 'POST':
+                     ....
+                 else:
+                     # Get request
+                     form = ContactForm(initial={'email': 'johndoe@coffeehouse.com', 'name': 'John Doe'})
+
+
+        2. If we always want an initial value to be the same, we can add them to the declarations of the
+             form fields.
+
+             class ContactForm(forms.Form):
+                 name = forms.CharField(required=False, initial='Please provide your name')
+                 email = forms.EmailField(label='Your email', initial='We need your email')
+                 comment = forms.CharField(widget=forms.Textarea)
+
+
+        3. If we want dynamic initial values, we can always just create a constructor for the form class.
+
+             class ContactForm(forms.Form):
+                 name = forms.CharField(required=False)
+                 email = forms.EmailField(label='Your email')
+                 comment = forms.CharField(widget=forms.Textarea)
+
+                 def __init__(self, *args, **kwargs):
+                     ...
+
+
+
+- Other Form Initialization Options
+
+    - 'label_suffix'
+
+        By default, each field has a label, followed by a colon, followed by the input.  We can use this
+          option to override the colon.
+
+
+    - 'auto_id'
+
+        This is set to True by default.  It automatically generates 'id' and 'for' tags for each field.
+
+               <!-- Default auto_id=True -->
+               <tr>
+                   <th>
+                       <label for="id_name">Name:</label>
+                   </th>
+                   <td>
+                       <input id="id_name"  name="name" type="text" />
+                   </td>
+               </tr>
+
+
+               <!-- auto_id=False -->
+               <tr>
+                   <th>Name:</th>
+                   <td>
+                       <input name="name" type="text"
+                   </td>
+               </tr>
+
+
+        Sometimes, these auto-generated ids are useful for attaching CSS classes and Javascript handlers.
+          Sometimes, they generate weird values that hurt rather than help.
+
+        To turn them off at the form class level:
+
+            class ContactForm(forms.Form, auto_id=False):
+                ...
+
+
+    - 'field_order'
+
+        By default, the fields are outputted in the order they are declared.  This can be overridden:
+
+            class ContactForm(forms.Form)
+                name = ...
+                email = ...
+                comment = ...
+                field_order=['email', 'comment', 'name']
+
+
+    - 'use_required_attribute'
+
+        By default, this is set to True, which means that all required form fields are output with the 
+          HTML5 'required' attribute.  This adds client-side validation of required fields.  We can
+          turn this off by passing 'False'.
+          
+
 
 - Accessing Form Values
 
@@ -203,3 +303,4 @@ CHAPTER 6 - DJANGO FORMS
     - Files
 
 - Django Formsets
+
