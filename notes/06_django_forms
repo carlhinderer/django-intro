@@ -1,0 +1,96 @@
+-----------------------------------------------------------
+CHAPTER 6 - DJANGO FORMS
+-----------------------------------------------------------
+
+- Django Form Structure
+
+    - Here is a stand-alone Django form class used to back a contact form:
+
+        # forms.py in 'contact' app
+        from django import forms
+
+        class ContactForm(forms.Form):
+            name = forms.CharField(required=False)
+            email = forms.EmailField(label='Your email')
+            comment = forms.CharField(widget=forms.TextArea)
+
+
+    - Here is a view method to handle it:
+
+        # views.py in 'contact' app
+        from django.shortcuts import render
+        from forms import ContactForm
+
+        def contact(request):
+            form = ContactForm()
+            return render(request, 'about/contact.html', {'form': form})
+
+
+    - We make the template 'about/contact.html'
+
+        # contact.html
+        {{ form.as_table }}
+
+
+    - Here is the HTML that will be rendered:
+
+        <tr>
+          <th><label for="id_name">Name:</label></th>
+          <td><input id="id_name" name="name" type="text" /></td>
+        </tr>
+        <tr>
+          <th><label for="id_email">Your email:</label></th>
+          <td><input id="id_email" required name="email" type="email" /></td>
+        </tr>
+        <tr>
+          <th><label for="id_comment">Comment:</label></th>
+          <td><textarea cols="40" id="id_comment" required name="comment" rows="10"></textarea></td>
+        </tr>
+
+
+      Note that the inner table tags are populated, but the enclosing <table> and <form action=''>
+        are missing.
+
+
+
+- Form Workflow
+
+    1. Client sends GET request, and it's routed to 'views.py'
+
+    2. The HTML form is delivered to the client
+
+    3. Client sends POST form submit request, and it's routed to 'views.py'
+
+    4. Form processing result is delivered to the client (success message, errors, or redirect)
+
+
+
+- Functional Web Form Syntax
+
+- Django View Method To Process Django Form
+
+- CSRF and Django
+
+- Django Form Processing
+
+- Accessing Form Values
+
+- Validating Form Values
+
+- Error Form Values
+
+- Django Form Field Types
+
+- Django Widgets
+
+- Set Up the Layout for Django Forms in Templates
+
+- Django Custom Form Fields and Widgets
+
+- Django Advanced Form Processing
+
+    - Partial Forms
+    - AJAX
+    - Files
+
+- Django Formsets
