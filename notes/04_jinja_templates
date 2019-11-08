@@ -248,6 +248,68 @@ CHAPTER 4 - JINJA TEMPLATES
 
 
 
+- Auto-Escaping Behavior
+
+    - Django enables Jinja template auto-escaping by default.  This has the sames advantages and drawbacks
+        that auto-escaping always does.
+
+      One one hand, this errs on the side of precaution and security, because it limits XSS scripting
+        vulnerabilities.  On the other hand, it introduces extra processing in the template engine that
+        can cause performance problems.  
+
+
+    - To disable auto-escaping, use:
+
+        'OPTIONS': {
+            'autoescape': False
+        }
+
+
+
+- Auto-Reload Template Behavior and Caching
+
+    - Out of the box, if DEGUG is set to True, Jinja will check to see whether a template's source has
+        changed every time the template is requested.
+
+      If DEBUG is set to False, it turns template-autoreloading off.  
+
+      If we need to override this, we can set the 'auto_reload' parameter explicitly in 'OPTIONS'.
+
+
+    - By default, the Jinja caches 400 templates at a time.
+
+      To override this, we can set the 'cache_size' parameter explicitly in 'OPTIONS'.
+
+
+
+- Invalid Template Variables
+
+    - If DEBUG=True, and there is an invalid variable encountered in a template, the 
+        'jinja2.DebugUndefined' class outputs the variable verbatim for rendering.
+
+
+    - If DEBUG=False, and there is an invalid variable encountered in a template, the 
+        'jinja2.Undefined' class outputs a blank space in the missing variable's place.
+
+
+    - For testing purposes, we could have the server just render an HTTP 500 immediatedly if
+        an invalid reference is found.
+
+        # settings.py
+        import jinja2
+
+        'OPTIONS': {
+            'undefined': jinja2.StrictUndefined
+        }
+
+
+
+- Template Loaders
+
+    - Custome template loaders can be created for Jinja in advanced cases.
+
+
+
 - Creating Reusable Jinja Templates
 
 - Jinja Globals
