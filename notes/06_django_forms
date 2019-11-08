@@ -75,7 +75,7 @@ CHAPTER 6 - DJANGO FORMS
             <table>
                 {% form.as_table %}
             </table>
-            <input type='submit' value='Submit form' />
+            <input type='submit' value='Submit form'>
         </form>
 
 
@@ -121,6 +121,64 @@ CHAPTER 6 - DJANGO FORMS
 
 
 - CSRF and Django
+
+    - CSRF is a technique used to force users into executing unwanted actions on a web application.
+        CSRF attacks rely mostly on social engineering and lax application security on a web
+        application.  
+
+
+    - This describes a CSRF scenario on a web application:
+
+        1. Client authenticates with username and password
+
+        2. HTML form is delivered to client
+
+            <form>
+                <input type='text' name='email'>
+            </form>
+
+        3. Cyber criminal publishes form with pre-filled values and intent to deceive
+
+            <form>
+                <input type='text' name='email' value='criminal@rogue.com'>
+            </form>
+
+        4. User clicks on fraud bait on social media, email, or web site.
+
+        5. Forged form data is sent to the server, and is taken as valid since it was sent from an
+             authenticated user's browser.  The client account's email is now 'criminal@rogue.com'.
+
+
+    - To protect against CSRF attacks, we add a unique identifier to each web form.  It's unique
+        to each user and has an expiration time, like a session identifier.  
+
+      Only requests that pass back a matching CSRF token are considered valid and all other 
+        requests are discarded.
+
+
+    - The token generated looks like:
+
+        <input type='hidden' name='csrfmiddlewaretoken' value='32_character_string'>
+
+
+    - CSRF is enabled by default on all Django applications.  If we want to disable it application-wide,
+        we can change a setting in the 'settings.py'.
+
+      To disable it for a certain form, we can use the '@csrf_exempt' or '@csrf_protect' decorators
+        on the view methods.
+
+
+        # Bypass csrf enforcement
+        @csrf_exempt
+        def contact(request):
+            ...
+
+        # Enforce csrf when its disabled at the project level
+        @csrf_protect
+        def contact(request):
+            ...
+
+
 
 - Django Form Processing
 
