@@ -100,6 +100,354 @@ CHAPTER 7 - DJANGO MODELS
 
 - Django Model Data Types
 
+
+    Data type    Django model type               Description                                      Database DDL                                                          
+    -----------------------------------------------------------------------------------------------------------------------------
+     
+    Binary       models.BinaryField()            Creates a blob field to store binary data        [SQLite]
+                                                   (e.g., images, audio or other multimedia       BLOB NOT NULL
+                                                   objects).                                      
+                                                                                                  [MySQL]
+                                                                                                  longblob NOT NULL
+
+                                                                                                  [PostgreSQL]
+                                                                                                  bytea NOT NULL       
+
+                                                                                                  [Oracle]
+                                                                                                  BLOB NULL
+                                                        
+
+    Boolean      models.BooleanField()           Creates a Boolean field to store True/False      [SQLite]
+                                                   (or 0/1) values.                               bool NOT NULL
+                                                                                    
+                                                                                                  [MySQL]
+                                                                                                  bool NOT NULL
+
+                                                                                                  [PostgreSQL]
+                                                                                                  boolean NOT NULL
+
+                                                                                                  [Oracle]
+                                                                                                  NUMBER(1) NOT NULL 
+                                                                                                  CHECK (“VAR” IN (0,1))
+
+    Boolean      models.NullBooleanField()       Works just like BooleanField but also allows     [SQLite]
+                                                   NULL values.                                   bool NULL
+
+                                                                                                  [MySQL]
+                                                                                                  bool NULL
+    
+                                                                                                  [PostgreSQL]
+                                                                                                  boolean NULL
+    
+                                                                                                  [Oracle]
+                                                                                                  NUMBER(1) NULL 
+                                                                                                  CHECK ((“VAR” IN (0,1)) OR 
+                                                                                                         (“VAR” IS NULL))
+    
+    Date/time    models.DateField()              Creates a date field to store dates.             [SQLite]
+                                                                                                  date NOT NULL
+    
+                                                                                                  [MySQL]
+                                                                                                  date NOT NULL
+    
+                                                                                                  [PostgreSQL]
+                                                                                                  date NOT NULL
+    
+                                                                                                  [Oracle]
+                                                                                                  DATE NOT NULL
+
+    Date/time    models.TimeField()              Creates a time field to store times.             [SQLite]
+                                                                                                  time NOT NULL
+    
+                                                                                                  [MySQL]
+                                                                                                  time NOT NULL
+    
+                                                                                                  [PostgreSQL]
+                                                                                                  time NOT NULL
+    
+                                                                                                  [Oracle]
+                                                                                                  TIMESTAMP NOT NULL
+
+
+    Date/time    models.DateTimeField()          Creates a datetime field to store dates with     [SQLite]
+                                                   times.                                         datetime NOT NULL
+    
+                                                                                                  [MySQL]
+                                                                                                  datetime NOT NULL
+    
+                                                                                                  [PostgreSQL]
+                                                                                                  timestamp with time zone NOT NULL
+    
+                                                                                                  [Oracle]
+                                                                                                  TIMESTAMP NOT NULL
+    
+
+    Date/time    models.DurationField()          Creates a field to store periods of time.        [SQLite]       
+                                                                                                  bigint NOT NULL
+    
+                                                                                                  [MySQL]
+                                                                                                  bigint NOT NULL
+    
+                                                                                                  [PostgreSQL]
+                                                                                                  interval NOT NULL
+    
+                                                                                                  [Oracle]
+                                                                                                  INTERVAL DAY(9) TO SECOND(6) NOT NULL
+
+
+    Number       models.AutoField()              Creates an integer that autoincrements,          [SQLite]
+                                                   primarily used for custom primary keys.        integer NOT NULL AUTOINCREMENT
+
+                                                                                                  [MySQL]
+                                                                                                  integer AUTO_INCREMENT NOT NULL
+
+                                                                                                  [PostgreSQL]
+                                                                                                  serial NOT NULL
+
+                                                                                                  [Oracle]
+                                                                                                  NUMBER(11) NOT NULL 
+                                                                                                  & also creates a SEQUENCE and TRIGGER to 
+                                                                                                  increase the field
+    
+
+    Number       models.BigIntegerField()        Create a big integer to fit numbers between      [SQLite]
+                                                   -9223372036854775808 to 9223372036854775807.   bigint NOT NULL
+                                                   This range may vary depending on the DB 
+                                                   brand.                                         [MySQL]
+                                                                                                  bigint NOT NULL
+
+                                                                                                  [PostgreSQL]
+                                                                                                  bigint NOT NULL
+
+                                                                                                  [Oracle]
+                                                                                                  NUMBER(19) NOT NULL
+
+
+    Number       models.DecimalField(            Enforces a number have a maximum X digits and    [SQLite]
+                   decimal_places=X,               Y decimal points. Creates a decimal field      decimal NOT NULL
+                   max_digits=Y)                   to store decimal numbers. Note both X and Y 
+                                                   arguments are required, where the X argument   [MySQL]
+                                                   represents the maximum number of digits to     numeric(X, Y) NOT NULL
+                                                   store and the Y argument represents the 
+                                                   number of decimal places to store.             [PostgreSQL]
+                                                                                                  numeric(X, Y) NOT NULL
+
+                                                                                                  [Oracle]
+                                                                                                  NUMBER(10, 3) NOT NULL
+    
+
+    Number       models.FloatField()             Creates a column to store floating-point         [SQLite]
+                                                   numbers.                                       real NOT NULL
+
+                                                                                                  [MySQL]
+                                                                                                  double precision NOT NULL
+
+                                                                                                  [PostgreSQL]
+                                                                                                  double precision NOT NULL
+    
+                                                                                                  [Oracle]
+                                                                                                  DOUBLE PRECISION NOT NULL
+    
+
+    Number       models.IntegerField()           Creates a column to store integer numbers.       [SQLite]
+                                                                                                  integer NOT NULL
+
+                                                                                                  [MySQL]
+                                                                                                  integer NOT NULL
+
+                                                                                                  [PostgreSQL]
+                                                                                                  integer NOT NULL
+
+                                                                                                  [Oracle]
+                                                                                                  NUMBER(11) NOT NULL
+    
+
+    Number       models.PositiveIntegerField()   Enforces values from 0 to 2147483647. Works      [SQLite]
+                                                   just like IntegerField but limits values       integer unsigned NOT NULL
+                                                   to positive numbers.
+                                                                                                  [MySQL]
+                                                                                                  integer UNSIGNED NOT NULL
+    
+                                                                                                  [PostgreSQL]
+                                                                                                  integer NOT NULL 
+                                                                                                  CHECK (“VAR” >= 0)
+
+                                                                                                  [Oracle]
+                                                                                                  NUMBER(11) NOT NULL 
+                                                                                                  CHECK (“VAR” >= 0)
+
+
+    Number       models.                         Enforces values from 0 to 32767. Works           [SQLite]
+                 PositiveSmallIntegerField()       just like IntegerField and the specialized     smallint unsigned NOT NULL
+                                                   PositiveIntegerField but limits numbers to 
+                                                   a smaller positive range.                      [MySQL]
+                                                                                                  smallint UNSIGNED NOT NULL
+    
+                                                                                                  [PostgreSQL]
+                                                                                                  smallint NOT NULL CHECK (“VAR” >= 0)
+
+                                                                                                  [Oracle]
+                                                                                                  NUMBER(11) NOT NULL CHECK (“VAR” >= 0)
+
+
+    Number       options.SmallIntegerField()     Enforces a number is in the range from           [SQLite]
+                                                   -32768 to 32767. Works just like               smallint NOT NULL
+                                                   IntegerField but in a smaller integer 
+                                                   range.                                         [MySQL]
+                                                                                                  smallint NOT NULL
+
+                                                                                                  [PostgreSQL]
+                                                                                                  smallint NOT NULL
+
+                                                                                                  [Oracle]
+                                                                                                  NUMBER(11) NOT NULL
+
+
+    Text         models.CharField(max_length=N)  Creates a text column, where the max_length      [SQLite]
+                                                   argument is required to specify the            varchar(N) NOT NULL
+                                                   maximum length in characters.
+                                                                                                  [MySQL]
+                                                                                                  varchar(50) NOT NULL
+
+                                                                                                  [PostgreSQL]
+                                                                                                  varchar(50) NOT NULL
+
+                                                                                                  [Oracle]
+                                                                                                  NVARCHAR2(50) NULL
+
+
+    Text        models.TextField()               Creates a text field to store text.              [SQLite]
+                                                                                                  text NOT NULL
+    
+                                                                                                  [MySQL]
+                                                                                                  longtext NOT NULL
+
+                                                                                                  [PostgreSQL]
+                                                                                                  text NOT NULL
+
+                                                                                                  [Oracle]
+                                                                                                  NCLOB NULL
+
+
+    Text            models.                       Enforces the string a CSV of integers.          [SQLite]
+    (Specialized)   CommaSeparatedIntegerField(     Works just like CharField except Django       varchar(N) NOT NULL
+                    max_length=50)                  enforces the string be a comma separated 
+                                                    value of integers prior to interacting        [MySQL]
+                                                    with the database (e.g., 3,54,54,664,65).     varchar(N) NOT NULL
+    
+                                                                                                  [PostgreSQL]
+                                                                                                  varchar(N) NOT NULL
+
+                                                                                                  [Oracle]
+                                                                                                  NVARCHAR2(N) NULL
+
+
+    Text            models.EmailField()          Enforces the text is a valid email with          [SQLite]
+    (Specialized)                                  the internal Django EmailValidator to          varchar(254) NOT NULL
+                                                   determine what is and isn't a valid. Works 
+                                                   just like CharField defaulting to a            [MySQL]
+                                                   max_length of 254 characters and also          varchar(254) NOT NULL
+                                                   enforces the string is a valid email.
+                                                                                                  [PostgreSQL]
+                                                                                                  varchar(254) NOT NULL
+    
+                                                                                                  [Oracle]
+                                                                                                  NVARCHAR2(254) NULL 
+
+
+    Text            models.FileField()           Enforces and provides various utilities          [SQLite]
+    (Specialized)                                  to handle files (e.g., opening/closing         varchar(100) NOT NULL
+                                                   file, upload location,etc.). Works just 
+                                                   like CharField defaulting to a max_length      [MySQL]
+                                                   of 100 characters and also enforces the        varchar(100) NOT NULL
+                                                   string is a valid file.
+                                                                                                  [PostgreSQL]
+                                                                                                  varchar(100) NOT NULL
+
+                                                                                                  [Oracle]
+                                                                                                  NVARCHAR2(100) NULL
+    
+
+    Text            models.FilePathField()       Enforces and provides various utilities to       [SQLite]
+    (Specialized)                                  limit choices of filenames in certain          varchar(100) NOT NULL
+                                                   filesystem directories. Works just like 
+                                                   CharField defaulting to a max_length of 100    [MySQL]
+                                                   characters and also enforces the string is     varchar(100) NOT NULL
+                                                   a valid file in a filesystem directory.
+                                                                                                  [PostgreSQL]
+                                                                                                  varchar(100) NOT NULL
+
+                                                                                                  [Oracle]
+                                                                                                  NVARCHAR2(100) NULL
+
+
+    Text            models.ImageField()          Enforces and provides various utilities to       [SQLite]
+    (Specialized)                                  handle image files (e.g. getting the height    varchar(100) NOT NULL
+                                                   & width). Works just like CharField and the 
+                                                   specialized FileField defaulting to a          [MySQL]
+                                                   max_length of 100 characters and also          varchar(100) NOT NULL
+                                                   enforces the string is a valid image. Note 
+                                                   this field requires the presence of the        [PostgreSQL]
+                                                   Pillow Python library (e.g., pip install       varchar(100) NOT NULL
+                                                   Pillow).
+                                                                                                  [Oracle]
+                                                                                                  NVARCHAR2(100) NULL
+
+
+
+    Text            models.                     Enforces and provides various utilities to        [SQLite]
+    (Specialized)     GenericIPAddressField()     only accept valid IPv4 or IPv6 addresses        char(39) NOT NULL
+                                                  (e.g., 198.10.22.64 and 
+                                                  FE80::0202:B3FF.:FE1E:8329, as well as          [MySQL]
+                                                  utilities like unpack_ipv4 and protocol).       char(39) NOT NULL
+                                                  Works just like CharField defaulting to a 
+                                                  max_length of 39 characters and enforces        [PostgreSQL]
+                                                  the string is a valid IP address.               inet NOT NULL
+
+                                                                                                  [Oracle]
+                                                                                                  VARCHAR2(39) NULL
+
+
+    Text            models.SlugField()          Enforces a string is a slug string, which is      [SQLite]
+    (Specialized)                                 a string that only contains letters, numbers,   varchar(50) NOT NULL
+                                                  underscores or hyphens. Works just like 
+                                                  CharField defaulting to a max_length of 50      [MySQL]
+                                                  characters and ensure the provided string is    varchar(50) NOT NULL
+                                                  a slug - a concept that's typically used to 
+                                                  cleanse URL strings that contain spaces and     [PostgreSQL]
+                                                  other potentially invalid character like        varchar(50) NOT NULL
+                                                  letter with accents.
+                                                                                                  [Oracle]
+                                                                                                  NVARCHAR2(50) NULL
+
+
+    Text            models.URLField()           Enforces the provided text value is a valid       [SQLite]
+    (Specialized)                                 URL. Works just like CharField defaulting       varchar(200) NOT NULL
+                                                  to a max_length of 200 characters and 
+                                                  enforces the string is a valid URL.             [MySQL]
+                                                                                                  varchar(200) NOT NULL
+
+                                                                                                  [PostgreSQL]
+                                                                                                  varchar(200) NOT NULL
+
+                                                                                                  [Oracle]
+                                                                                                  NVARCHAR2(200) NULL
+
+
+    Text            models.UUIDField()       Enforces the provided text is a Universally          [SQLite]
+    (Specialized)                              unique identifiers (UUID) Works just like          char(32) NOT NULL
+                                               CharField defaulting to a max_length of 32 
+                                               characters and enforces the value is a UUID.       [MySQL]
+                                                                                                  char(32) NOT NULL
+    
+                                                                                                  [PostgreSQL]
+                                                                                                  uuid NOT NULL
+
+                                                                                                  [Oracle]
+                                                                                                  VARCHAR2(32) NOT NULL
+
+
+
 - Django Model Default and Custom Behaviors
 
 - Model Metaclasses and Options
