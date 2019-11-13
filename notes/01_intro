@@ -2,6 +2,193 @@
 CHAPTER 1 - INTRO TO DJANGO
 -----------------------------------------------------------
 
+- Book Contents
+
+    I. Intro
+
+        A. Starting a Django Project
+        B. Setting Up The Database
+        C. Creating URLs
+        D. Creating Templates
+        E. Creating Apps
+        F. Setting Up Django Admin and Admin Docs
+
+
+    II. Urls and Views
+
+        A. URL Regular Expressions
+        B. Passing URL Parameters to Templates
+        C. Passing URL Parameters to Views
+        D. Accessing Parameters From the QueryString
+        E. URL Consolidation, Modularization, and Namespacing
+
+        F. View Method 'request' Parameter
+        G. View Method Responses
+        H. Built-in Response Shortcuts
+        I. The 'DEBUG' Setting and Error Pages
+        J. Built-in View Method Middleware
+        K. Middleware Structure and Execution
+        L. Middleware Flash Messages
+        M. Class-Based Views
+        N. Creating Class-Based Views
+
+
+    III. Django Templates
+
+        A. Django Template Configuration
+        B. Creating Reusable Templates
+        C. Built-in Context Processors
+        D. Custom Context Processors
+        E. Built-in Django Filters
+        F. Built-in Django Tags
+        G. Custom Filters
+
+
+    IV. Jinja Templates
+
+        A. Jinja Advantages and Disadvantages
+        B. What Works Differently
+        C. Jinja Template Configuration
+        D. Creating Reusable Jinja Templates
+        E. Jinja Globals
+        F. Jinja Built-in Tags
+        G. Custom Filters and Tests
+        H. Jinja Extensions and Policies
+
+
+    V. Application Management
+
+        A. settings.py in Production
+        B. Using Multiple Configuration Environments
+        C. Setting Up Static Web Page Resources
+
+        D. Django Logging
+        E. Creating Log Messages
+        F. Customizing Loggers
+        G. Logging With Sentry
+
+        H. Django Email Service
+        I. Built-in Email Helpers
+        J. Customizing Email
+
+        K. Django Shell
+        L. Django Debug Toolbar
+        M. Django PDB
+        N. Django Extensions
+        O. Django Management Commands
+
+
+    VI. Forms
+
+        A. Django Form Structure and Workflow
+        B. Functional Template and View Method
+        C. CSRF and Django
+        D. Django Form Processing
+        E. Django Form Field Types
+        F. Setting the Layout for Django Forms in Templates
+        G. Django Custom Form Fields and Widgets
+        H. Partial Forms
+        I. AJAX Form Submission
+        J. Handling Files in Forms
+        K. Django Formsets
+
+
+    VII. Models
+
+        A. Django Models and the Migrations Workflow
+        B. Django Model Data Types
+        C. Django Built-in Model Methods
+        D. Custom Model Methods
+        E. Relationships in Django Models
+        F. Options for Relationship Model Data Types
+        G. Django Model Transactions
+        H. Django Model Migrations
+        I. Django Model Database Tasks
+        J. Model Initial Data Setup
+        K. Django Model Signals
+        L. Models Outside of models.py
+        M. Django Models and Multiple Databases
+
+
+    VIII. Model Queries
+
+        A. CRUD Single Records
+        B. CRUD Multiple Records
+        C. Understanding QuerySet
+        D. CRUD Relationships Across Django Models
+
+        E. Model Queries by SQL Keyword
+        F. Order Queries
+        G. Limit Queries
+        H. Merge Queries
+        I. Aggregation Queries
+        J. Expression and Function Queries
+        K. Model Queries with Raw SQL
+        L. Model Managers
+
+
+    IX. Model Forms and Classviews
+
+        A. Django Model Form Structure and Workflow
+        B. Creating Model Forms
+        C. Model Form Options
+        D. Model Forms with Relationships
+        E. Model Form Processing
+        F. Model Formsets
+
+        G. Class-Based Views with Models
+        H. CreateView
+        I. ListView and DetailView
+        J. UpdateView
+        K. DeleteView
+        L. Class-Based Views with Mixins
+
+
+    X. User Management
+
+        A. Creating Users
+        B. Managing Users
+        C. Creating and Managing Groups
+
+        D. Permission Types
+        E. View Method Permission Checks
+        F. URL Permission Checks
+        G. Template Permission Checks
+        H. Class-Based View Permission Checks
+
+        I. User Authentication and Auto-Management
+        J. Login and Logout Workflow
+        K. Password Change Workflow
+        L. Password Reset Workflow
+        M. User Signup Workflow
+
+        N. Creating Custom User Model Fields
+        O. Custom Authentication Back Ends
+
+        P. User Management with Django allauth
+        Q. Social Authentication with Django allauth
+        R. Facebook Authentication with Django allauth
+        S. Google Authentication with Django allauth
+        T. Twitter Authentication with Django allauth
+
+
+    XI. Admin Management
+
+        A. Setting Up Django Models
+        B. CRUD Records
+        C. Custom Page Layout, Data, and Behaviors
+        D. CRUD Permissions
+        E. Multiple Django admin Sites
+
+
+    XII. REST Services
+
+        A. Standard View Method exposed as a REST Service
+        B. Django REST Framework Concepts
+        C. Django REST Framework Security
+
+
+
 - Django was started in 2003 by Adrian Holovaty and Simon Willison at the 'Journal-World' newspaper
     in Lawrence, KS.  In 2005, they released the first public version of the framework.
 
