@@ -448,7 +448,118 @@ CHAPTER 7 - DJANGO MODELS
 
 
 
-- Django Model Default and Custom Behaviors
+- Oracle NOT NULL
+
+    For some of the field types, Oracle generates DB columns with the NULL constraint, while the
+      other database types generate columns with NOT NULL.
+
+    This is because Oracle differs from the other databases in that it treats empty strings
+      as NULL.  If you have an Oracle column with a NOT NULL constraint, we won't be able to
+      insert empty strings into it.
+
+    This is a well-known Oracle quirk, and everyone has their own way of dealing with it.
+
+
+
+- Data Enforcement Options
+
+    - Limiting Values
+
+        max_length
+        min_value
+        max_value
+        max_digits
+        decimal_places
+
+
+    - Empty, Null and Not Null
+
+        - By default, all Django model fields are assigned a NOT NULL restriction at the database level.
+            To allow a field to be null, we use the 'null=True' option.
+
+            IntegerField(null=True)
+
+
+        - Django also supports the 'blank' option for forms.  By default, 'blank=False' for form fields.
+            If you want to allow a field to be blank, use the 'blank=True' option.
+
+
+    - Predetermined Values
+
+        - The 'default' option is used to define a default with either a constant or a method call.
+
+            def default_city():
+                return 'San Diego'
+
+            class Store(models.Model):
+                state = models.CharField(max_length=2, default='CA')
+                city = models.CharField(max_length=30, default=default_city)
+
+
+        - The enforcement of default options is done entirely in Python.  The underlying DDL is unaware of
+            any default values.
+
+
+        - The 'auto_now' and 'auto_now_add' options are available for DateTime fields.
+
+            # auto_now columns are updated every time a record is changed
+            # auto_now_add columns are frozen for the lifetime of the record
+            from datetime import date
+            from django.utils import timezone
+            
+            class Store(models.Model):
+                name = models.CharField(max_length=30)
+                address = models.CharField(max_length=30)
+                date = models.DateField(default=date.today)
+                datetime = models.DateTimeField(default=timezone.now)
+
+                date_lastupdated = models.DateField(auto_now=True)
+                date_added = models.DateField(auto_now_add=True)
+                timestamp_lastupdated = models.DateTimeField(auto_now=True)
+                timestamp_added = models.DateTimeField(auto_now_add=True)
+
+
+        - The 'choices' option is used to limit input to a predefined list of values.
+
+            ITEM_SIZES = (
+                          ('S','Small'),
+                          ('M','Medium'),
+                          ('L','Large'),
+                          ('P','Portion'),
+                         )
+
+            class Menu(models.Model):
+                name = models.CharField(max_length=30)
+
+            class Item(models.Model):
+                menu = models.ForeignKey(Menu, on_delete=models.CASCADE)
+                name = models.CharField(max_length=30)
+                description = models.CharField(max_length=100)
+                size = models.CharField(choices=ITEM_SIZES,max_length=1)
+
+
+    - Unique Values
+
+
+    - Form Values
+
+
+    - DDL Values
+
+
+    - Built-in and Custom Validators
+
+
+
+- Model Methods
+
+- Validation Methods
+
+- Data Loading Methods
+
+- Custom Methods
+
+- The Model 'manager' Field
 
 - Model Metaclasses and Options
 
