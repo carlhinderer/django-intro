@@ -540,14 +540,109 @@ CHAPTER 7 - DJANGO MODELS
 
     - Unique Values
 
+        - The 'unique=True' is used to enforce a field to be unique across all records.  It is enforced at
+            the database layer (ie with a DDL UNIQUE SQL constraint).
+
+            CharField(max_length=30, unique=True)
+
+
+        - To enforce uniqueness in a 'DateField' or 'DateTimeField', we can use the 'unique_for_date',
+            'unique_for_month', and 'unique_for_year' options.
+
+            name = models.CharField(max_length=30, unique_for_date='date_lastupdated')
+            name = models.CharField(max_length=30, unique_for_month='date_lastupdated')
+            name = models.CharField(max_length=30, unique_for_year='date_lastupdated')
+
 
     - Form Values
+
+        - The 'editable' option determines whether a field should be added to a form.  By default,
+            'editable=True'.
+
+
+        - The 'help_text' option allows the inclusion of additional text alongside a form field.
+
+            description = models.CharField(max_length=100,
+                                           help_text="Ensure you provide some description of the ingredients")
+            calories = models.IntegerField(help_text="Calorie count should reflect <b>size</b> of the item")
+
+
+        - By default, the label generated for a field is a caitalized version of the field name.  To
+            override this, the 'verbose_name' option is used.
+
+            name = models.CharField(max_length=30, verbose_name='ITEM NAME')
+
+
+        - We can add custom error messages to form fields by using the 'error_messages' attribute.
 
 
     - DDL Values
 
+        - The 'db_column' option is used to control the name of the column.
+
+            # Override the column name
+            name = models.CharField(max_length=30, db_column='my custom name')
+
+
+        - The 'db_index' option is used to control whether a column gets an index.
+
+            # Generate an index for a field
+            size = models.CharField(choices=ITEM_SIZES, max_length=1, db_index=True)
+
+          If a field uses the 'unique=True' option, Django automatically creates an index for the field.
+            If a field is a 'ForeignKey' data type, Django automatically creates an index for the field.
+            To disable these, use 'db_index=False'.
+
+
+        - In PostgreSQL or Oracle databases, it's possible to specify a tablespace for a field's index
+            through the 'db_tablespace' option.
+
+
+        - The 'primary_key' option allows you to define a primary key for a model.  If you don't define a
+            primary key option, an 'id' primary key attribute is automatically created.
+
 
     - Built-in and Custom Validators
+
+        - The 'validators' option allows more advanced validation logic througth built-in or custom
+            methods.
+
+
+            ITEM_SIZES = (
+                        ('S','Small'),
+                        ('M','Medium'),
+                        ('L','Large'),
+                        ('P','Portion'),
+                        )
+            
+            # Import built-in validator
+            from django.core.validators import MinLengthValidator
+            
+            # Create custom validator
+            from django.core.exceptions import ValidationError
+            
+            # Custom validator must raise a 'ValidationError'
+            def calorie_watcher(value):
+                if value > 5000:
+                    raise ValidationError(
+                        ('Whoa! calories are %(value)s ? We try to serve healthy food, try something less than 5000!'),
+                        params={'value': value},
+                    )
+                if value < 0:
+                    raise ValidationError(
+                        ('Strange calories are %(value)s ? This can\'t be, value must be greater than 0'),
+                        params={'value': value},
+                    )
+            
+            class Menu(models.Model):
+                name = models.CharField(max_length=30)
+            
+            class Item(models.Model):
+                menu = models.ForeignKey(Menu, on_delete=models.CASCADE)
+                name = models.CharField(max_length=30,validators=[MinLengthValidator(5)])
+                description = models.CharField(max_length=100)
+                size = models.CharField(choices=ITEM_SIZES,max_length=1)
+                calories = models.IntegerField(validators=[calorie_watcher])
 
 
 
