@@ -33,7 +33,18 @@ CHAPTER 7 - DJANGO MODELS
 
     - Model Migration Workflow
 
-        1. The workflow starts when you add or modify Django models in 'models.py'.
+        1. The workflow starts when you add or modify Django models in 'models.py'.  Note that our app must be added
+             to 'INSTALLED_APPS' for migrations to run.
+
+             INSTALLED_APPS = (
+                 'django.contrib.admin',
+                 'django.contrib.auth',
+                 'django.contrib.contenttypes',
+                 'django.contrib.sessions',
+                 'django.contrib.messages',
+                 'django.contrib.staticfiles',
+                 'coffeehouse.stores',            
+             )
 
 
         2. Once you have enough changes that you want to create a migration file.
