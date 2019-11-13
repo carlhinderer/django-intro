@@ -648,7 +648,98 @@ CHAPTER 7 - DJANGO MODELS
 
 - Model Methods
 
+    - The 'save()' method creates or updates a record to a database.
+
+        from coffeehouse.stores.models import Store
+        
+        store_corporate = Store(name = 'Corporate',
+                                address = '624 Broadway',
+                                city = 'San Diego',
+                                state = 'CA',
+                                email='corporate@coffeehouse.com')
+        
+        # No record id reference, so a create operation is made and the reference is 
+        #   updated with id
+        store_corporate.save()
+        
+        store_corporate.city='625 Broadway'
+        
+        # Record has id reference from prior save() call, so operation is update
+        store_corporate.city='625 Broadway'
+        store_corporate.save()
+
+
+    - These are custom 'save()' arguments:
+
+        # Used to force insertion and updating, rarely used
+        force_insert
+        force_update
+
+        # Used to use a database other than the default from 'settings.py'
+        using
+
+        # Specify a list of fields to update
+        update_fields
+
+        # Used to control whether a transaction is committed, True by default
+        commit
+
+
+    - It is possible to override the 'save()' method with a custom implementation.
+
+        class Store(models.Model):
+            def save(self, *args, **kwargs):
+                # Do custom logic
+                # Now, call the default save
+                super(Store, self).save(*args, **kwargs)
+
+
+    - The 'delete()' method deletes a record.
+
+        # Delete store record
+        store_corporate.delete()
+
+        # Delete arguments
+        using
+        keep_parents
+
+
+
 - Validation Methods
+
+    - Django model instance validation is that it's done on 2 layers: the database layer and the Django layer.
+
+
+    - The 'clean_fields()' method runs the field validations in the Django layer
+
+        class Store(models.Model):
+            name = models.CharField(max_length=30)
+            address = models.CharField(max_length=30,unique=True)
+            city = models.CharField(max_length=30)
+            state = models.CharField(max_length=2)
+        
+        # Create a model Store instance, that violates the max_length rule
+        store_corporate = Store(name='This is a very long name for the Corporate store that exceeds the 30 character limit',
+                                address='624 Broadway',
+                                city='San Diego',
+                                state='AZ',
+                                email='corporate@coffeehouse.com')
+        
+        # No error yet
+        
+        # You could call save() and let the database reject the instance...
+        # But you can also validate at the Django/Python level with the clean_fields() method
+        store_corporate.clean_fields()
+        Traceback (most recent call last):
+            raise ValidationError(errors)
+        ValidationError: {'name': [u'Ensure this value has at most 30 characters (it has 84).']}
+
+
+    - The 'clean()' method can be overridden to add custom validations.  The 'validate_unique()' method is used to check
+        a value for uniqueness in the app layer.  The 'full_clean()' method calls 'clean_fields()', 'clean()', and 
+        'validate_unique()' methods.
+
+        
 
 - Data Loading Methods
 
