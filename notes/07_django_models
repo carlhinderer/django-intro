@@ -1,0 +1,110 @@
+-----------------------------------------------------------
+CHAPTER 7 - DJANGO MODELS
+-----------------------------------------------------------
+
+- The Migrations Workflow
+
+    - Models serve as the building blocks of Django projects.  Once you have them, you can simplify the
+        creation of other constructs like forms, class-based views, REST services, admin pages, etc.
+
+
+    - Creating a Model
+        
+        from django.db import models
+
+        class Store(models.Model):
+            # id = models.AutoField(primary_key=True)    # Added by default, not required explicitly
+            # objects = models.Manager()                 # Added by default, not required explicitly
+
+            name = models.CharField(max_length=30)
+            address = models.CharField(max_length=30)
+            city = models.CharField(max_length=30)
+            state = models.CharField(max_length=2)
+
+            def __str__(self):
+                return "%s (%s,%s)" % (self.name, self.city, self.state)
+
+
+    - The 'id' field is a automatically incrementing integer.
+
+      The 'objects' field is Django's default model manager, charged with managing all the query operations
+        on the model.
+
+
+    - Model Migration Workflow
+
+        1. The workflow starts when you add or modify Django models in 'models.py'.
+
+
+        2. Once you have enough changes that you want to create a migration file.
+
+           The migration files are stored in '/migrations/' subdirectory, inside an app, next to the 'models.py'
+             file they track.  They have the <number_shortdescription> filename format.
+
+             # Get migration for the 'stores' app only
+             $ python manage.py makemigrations stores
+
+             Migrations for 'stores':
+               0001_initial.py:
+                 - Create model Store
+
+
+           The file has 'initial' in the name, because it is the first migration for a new 'models.py'.
+
+           When you run 'makemigrations' without an app name, Django looks for any changes in any of the 'models.py'
+             files in any of the apps in 'INSTALLED_APPS', and makes migrations for them.
+
+
+        3. To preview the SQL statements before running them on the database,
+
+             # See the sql for the migration
+             $ python manage.py sqlmigrate stores 0001
+
+             BEGIN;
+             CREATE TABLE "stores_store" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, 
+                                          "name" varchar(30) NOT NULL, 
+                                          "address" varchar(30) NOT NULL, 
+                                          "city" varchar(30) NOT NULL, 
+                                          "state" varchar(2) NOT NULL);
+             COMMIT;
+
+
+        4. Now, we apply the migrations to the database:
+
+            # Execute migrations
+            $ python manage.py migrate stores
+
+            Operations to perform:
+              Apply all migrations: stores
+            Running migrations:
+              Applying stores.0001_initial... OK
+
+
+        5. To keep track of the applied migrations:
+
+            # Show migrations
+            $ python manage.py showmigrations stores
+
+
+
+- Django Model Data Types
+
+- Django Model Default and Custom Behaviors
+
+- Model Metaclasses and Options
+
+- Relationships in Django Models
+
+- Django Model Transactions
+
+- Django Model Migrations
+
+- Django Model Database Tasks
+
+- Django Model Initial Data Setup
+
+- Django Model Signals
+
+- Django Models Outside of 'models.py'
+
+- Django Models andn Multiple Databases
