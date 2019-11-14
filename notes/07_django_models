@@ -739,15 +739,166 @@ CHAPTER 7 - DJANGO MODELS
         a value for uniqueness in the app layer.  The 'full_clean()' method calls 'clean_fields()', 'clean()', and 
         'validate_unique()' methods.
 
-        
+
 
 - Data Loading Methods
 
+    - The 'refresh_from_db()' method allows you to reload from the database, either because another process updated
+        the db or you want to discard changes.
+
+      If you want to customize this loading behavior, you can override the 'from_db()' method.
+
+
+    - The 'get_deferred_fields()' method returns a list of model fields that have been deferred from loading.
+
+
+
 - Custom Methods
+
+    - All the methods so far have come from the 'django.db.models.Model' class.  You can also create custom
+        model methods.
+
+        class Store(models.Model):
+            name = models.CharField(max_length=30)
+            address = models.CharField(max_length=30)
+            city = models.CharField(max_length=30)
+            state = models.CharField(max_length=2)
+        
+            def latitude_longitude(self):
+                # Call remote service to get latitude & longitude
+                latitude, longitude = geocoding_method(self.address, self.city, self.state)
+                return latitude, longitude
+
+
 
 - The Model 'manager' Field
 
-- Model Metaclasses and Options
+    - The 'objects' field is available on all Django models, and it processes all model queries.  We can
+        rename it if we need to.
+
+        class Store(models.Model):
+            mgr = models.Manager
+
+
+
+- Model Meta Class and Options
+
+    - The 'Meta' class in a Django model is intended to define behaviors for a Django model as a whole,
+        unlike field types which define behavior on a single field.
+
+
+    - For example, here we define a field to base the class ordering on:
+
+        class Store(models.Model):
+            name = models.CharField(max_length=30)
+            address = models.CharField(max_length=30)
+            city = models.CharField(max_length=30)
+            state = models.CharField(max_length=2)
+
+            # When a query is made on the model, sort results by state in descending order
+            class Meta:
+                ordering = ['-state']
+
+
+    - Meta Options for DDL:
+
+        # Change table name from default
+        db_table
+
+        # Set a tablespace
+        db_tablespace
+
+        # Don't use Django to interact with table
+        managed=False
+
+        # Set a required db vendor (ie MySQL and Postgres only)
+        required_db_vendor
+
+        # Ensure a set of db features is met
+        required_db_features
+
+        # Enforces that no 2 records have the same pair of values
+        unique_together('city', 'state')
+
+
+    - Meta Options for Creating Indexes:
+
+        # Create a new index (By deafult, B-tree indexes are created for all brands)
+        class Store(models.Model):
+            class Meta:
+                indexes = [
+                    models.Index(fields=['city', 'state']),
+                    models.Index(fields=['city'], name='city_idx')
+                ]
+
+
+        # Defines a single multi-field index
+        index_together
+
+
+    - Meta Options for Naming Conventions:
+
+        By default, Django models are referenced by their class name.  Sometimes, it is convenient to use a
+          different name for the model, like an acronym or abbreviation.
+
+        # Define custom names for model
+        verbose_name
+        verbose_name_plural
+
+        # Define custom labels for model
+        label
+        lower_label
+
+        # Define custom label for app
+        app_label
+
+
+    - Inheritance Meta Options:
+
+        # 'abstract' option allows Django model to function as abstract base class without a table
+        class Item(models.Model):
+            name = models.CharField(max_length=30)
+            description = models.CharField(max_length=100)
+
+            class Meta:
+                abstract=True
+
+        class Drink(Item):
+            millimeters = model.IntegerField()
+
+
+        # 'proxy' option gives a child class access to a parent class without the child being a
+        #   full-fledged model
+        proxy
+
+
+    - Query Meta Options:
+
+        # Define the default ordering for a list of instances
+        ordering
+
+        # Define ordering in the context of model relationships
+        order_with_respect_to
+
+        # Specifies model field used for the 'lastest()' and 'earliest()' methods
+        get_latest_by
+
+        # Define a reverse name for a field
+        default_related_name
+
+        # Tells Django to use legacy (<1.6) save() method
+        select_on_save
+
+
+    - Permission Meta Options
+
+        # Change default permissions for a model
+        default_permissions
+
+        # Assign custom permissions to a model
+        permissions
+
+
 
 - Relationships in Django Models
 
