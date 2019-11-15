@@ -1,0 +1,31 @@
+-----------------------------------------------------------
+CHAPTER 8 - DJANGO MODEL QUERIES AND MANAGERS
+-----------------------------------------------------------
+
+- Create a Single Record
+
+- Read a Single Record 
+
+- Update a Single Record
+
+- Delete a Single Record
+
+- Create Multiple Records
+
+- Read Multiple Records
+
+- Understanding QuerySet
+
+- Update Multiple Records
+
+- Delete Multiple Records
+
+- 1-M CRUD Operations
+
+- M-M CRUD Operations
+
+- Model Queries By SQL Keyword
+
+- Model Queries with Raw SQL
+
+- Model Managers
