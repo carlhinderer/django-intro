@@ -1,0 +1,25 @@
+-----------------------------------------------------------
+CHAPTER 9 - MODEL FORMS AND CLASS VIEWS
+-----------------------------------------------------------
+
+- Django Model Form Structure and Workflow
+
+- Create Django Model Forms
+
+- Model Form Options and Field Mapping
+
+- Django Model Forms with Relationships
+
+- Django Model Form Processing
+
+- Django Model Formsets
+
+- Class-Based Views with Models
+
+- CreateView
+
+- ReadView
+
+- UpdateView
+
+- DeleteView
