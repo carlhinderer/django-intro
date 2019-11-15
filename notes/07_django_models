@@ -902,6 +902,67 @@ CHAPTER 7 - DJANGO MODELS
 
 - Relationships in Django Models
 
+    - 1:M Relationship
+
+        - To define a 1:M relationship, we put 'ForeignKey' field on the many side of the model.
+
+            class Menu(models.Model):
+                name = models.CharField(max_length=30)
+
+            class Item(models.Model):
+                menu = models.ForeignKey(Menu)
+                name = models.CharField(max_length=30)
+                description = models.CharField(max_length=100)
+
+
+    - M:N Relationships
+
+        - In this example, a Store can have many Amenities, and an Amenity can belong to any number of 
+            Stores.
+
+            class Amenity(models.Model):
+                name = models.CharField(max_length=30)
+                description = models.CharField(max_length=100)
+
+            class Store(models.Model):
+                name = models.CharField(max_length=30)
+                address = models.CharField(max_length=30)
+                city = models.CharField(max_length=30)
+                state = models.CharField(max_length=2)
+                email = models.EmailField()
+                amenities = models.ManyToManyField(Amenity, blank=True)
+
+
+        - Using the 'ManyToManyField' causes a join table 'stores_store_amenities' to be created.
+
+        - The 'blank=True' option allows a Store record to be created without any amenities.
+
+
+    - 1:1 Relationships
+
+        - Here, a Drink is an Item.
+
+           from django.db import models
+
+           class Menu(models.Model):
+               name = models.CharField(max_length=30)
+           
+           class Item(models.Model):
+               menu = models.ForeignKey(Menu)
+               name = models.CharField(max_length=30)
+               description = models.CharField(max_length=100)
+               calories = models.IntegerField()
+               price = models.FloatField()
+           
+           class Drink(models.Model):
+               item = models.OneToOneField(Item, on_delete=models.CASCADE, primary_key=True)
+               caffeine = models.IntegerField()
+
+
+
+- Options for Relationship Model Data Types
+
+
 - Django Model Transactions
 
 - Django Model Migrations
