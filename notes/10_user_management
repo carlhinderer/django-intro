@@ -1,0 +1,25 @@
+-----------------------------------------------------------
+CHAPTER 10 - USER MANAGEMENT
+-----------------------------------------------------------
+
+- The Django User System
+
+- Creating Users
+
+- Managing Users
+
+- Creating and Managing Groups
+
+- Permission Types
+
+- Permission Checks and Enforcement
+
+- User Authentication and Auto-Management
+
+- User Management with Django allauth
+
+- Facebook Authentication with allauth
+
+- Google Authentication with allauth
+
+- Twitter Authentication with allauth
