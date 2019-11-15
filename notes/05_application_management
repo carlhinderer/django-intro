@@ -1,0 +1,55 @@
+-----------------------------------------------------------
+CHAPTER 5 - APPLICATION MANAGEMENT
+-----------------------------------------------------------
+
+- Django 'settings.py' For the Real World
+
+    1. Swith DEBUG to False
+
+    2. Define ALLOWED_HOSTS
+
+    3. Be Careful with the SECRET_KEY Value
+
+    4. Define Administrators for Admins and Managers
+
+    5. Use Dynamic Absolute Paths
+
+
+- Using Multiple Environment or Configuration Files for Django
+
+- Option #1
+  Multiple Environments in the Same 'settings.py' File with a Control Variable
+
+- Option #2
+  Multiple Environment Files Using 'configparser'
+
+- Option #3
+  Multiple 'settings.py' Files With Different Names for Each Environment
+
+- Setting Up Static Resources in a Development Environment (DEBUG=true)
+
+- Access Static Resources in Django Templates
+
+- Access Static Resources in Jinja Templates
+
+- Setting Up Static Resources in a Production Environment
+
+- Django Logging
+
+- Python Core Logging Concepts
+
+- Django Default Logging
+
+- Creating Log Messages
+
+- Custom Logging
+
+- Logging With Sentry
+
+- Django Email Service
+
+- Django Shell
+
+- Django Extensions
+
+- Django Management Commands
