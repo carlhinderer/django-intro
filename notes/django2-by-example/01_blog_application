@@ -1,0 +1,146 @@
+--------------------------------------------------------------------
+CHAPTER 1 - BUILDING A BLOG APPLICATION
+--------------------------------------------------------------------
+
+- Starting an Application
+
+    - Create a new virtual environment, and navigate to it.
+
+        # Install django
+        $ pip install django
+
+        # Start new app
+        $ django-admin startproject mysite
+
+        mysite/
+          manage.py
+          mysite/
+            __init__.py
+            settings.py
+            urls.py
+            wsgi.py
+
+
+        # Run initial migrations on SQLite
+        $ python manage.py migrate
+
+
+    - Now, we can run the development server.
+
+        # Run server on port 8000
+        $ python manage.py runserver
+
+        # Use a different settings.py
+        $ python manage.py runserver --settings=mysite.settings
+
+
+
+- Project Settings
+
+    DEBUG
+      Turns debug mode on and off.  
+
+    ALLOWED_HOSTS
+      Not applied if DEBUG=True or tests are run.  Once the site is moved to production, you'll add
+        your domain and host to this setting.
+
+    INSTALLED_APPS
+      Tells Django which applications are active for this site.
+
+    MIDDLEWARE
+      List of middleware to be executed
+
+    ROOT_URLCONF
+      Indicates Python module root URL patterns of application are defined
+
+    DATABASES
+      Dictionary containing all databases used in the project
+
+    LANGUAGE_CODE
+      Defines default language used for Django site
+
+    USE_TZ
+      Tells Django to activate/deactivate time zone support
+
+
+
+- Projects and Applications
+
+    - A 'project' is a Django installation with some settings.  Think of your Django project as 
+        your website, which contains several applications.
+
+      An 'application' is a group of models, views, templates, and URLs.  Applications interact with 
+        the framework to provide some specific functionalities and may be reused in various projects.
+
+
+    - Now, we create our first application:
+
+        $ python manage.py startapp blog
+
+        blog/
+          __init__.py
+          admin.py         # Optional file where we register models for admin site
+          apps.py          # Includes main configuration of application
+          migrations/
+            __init__.py
+          models.py
+          tests.py
+          views.py
+
+
+
+- The Blog Data Schema
+
+    - First, we create the Post model:
+
+        # blog/models.py
+        from django.db import models
+        from django.utils import timezone
+        from django.contrib.auth.models import User
+        
+        class Post(models.Model):
+            STATUS_CHOICES = (
+                ('draft', 'Draft'),
+                ('published', 'Published'),
+            )
+            title = models.CharField(max_length=250)
+            slug = models.SlugField(max_length=250,
+                                    unique_for_date='publish')
+            author = models.ForeignKey(User,
+                                       on_delete=models.CASCADE,
+                                       related_name='blog_posts')
+            body = models.TextField()
+            publish = models.DateTimeField(default=timezone.now)
+            created = models.DateTimeField(auto_now_add=True)      # Saved automatically when post is created
+            updated = models.DateTimeField(auto_now=True)          # Updated automatically when post is saved
+            status = models.CharField(max_length=10,
+                                      choices=STATUS_CHOICES,
+                                      default='draft')
+        
+            class Meta:
+                ordering = ('-publish',)
+        
+            def __str__(self):
+                return self.title
+
+
+    - And, we'll need to add our app to INSTALLED_APPS.  The 'BlogConfig' class is your application
+        configuration.
+
+
+        INSTALLED_APPS = [
+            ... ,
+            'blog.apps.BlogConfig',
+        ]
+
+
+    - Now, we create and apply the migrations.
+
+        # Create blog migrations
+        $ python manage.py makemigrations blog
+
+        # Preview the generated sql
+        $ python manage.py sqlmigrate blog 0001
+
+        # Run blog migrations
+        $ python manage.py migrate
