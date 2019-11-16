@@ -144,3 +144,35 @@ CHAPTER 1 - BUILDING A BLOG APPLICATION
 
         # Run blog migrations
         $ python manage.py migrate
+
+
+
+- Creating an Administrative Site for your Models
+
+    - The Django admin site is built dynamically by reading your model metadata and providing a
+        production-ready interface for editing content.
+
+
+    - First, we need to create a superuser, and enter an email, username, and password.
+
+        $ python manage.py createsuperuser
+
+
+    - Now, using the superuser logins, we can navigate to 
+
+        http://localhost:8000/admin
+
+
+    - Now, we need to add our blog models to the admin site.  
+
+        # blog/admin.py
+        from django.contrib import admin
+        from .models import Post
+
+        admin.site.register(Post)
+
+      Now, we'll have a CRUD site for the Posts available.  We can create a Post to test it.
+
+
+
+- Customizing the Admin Site
