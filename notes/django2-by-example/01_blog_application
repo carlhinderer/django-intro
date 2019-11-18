@@ -540,7 +540,8 @@ CHAPTER 1 - BUILDING A BLOG APPLICATION
         path('', views.PostListView.as_view(), name='post_list')
 
 
-    - And, lastly we have to update our pagination tag:
+    - And, lastly we have to update our pagination tag to use the 'page_obj' variable that is returned by 
+        ListView:
 
         # blog/list.html
         {% include "pagination.html" with page=page_obj %}

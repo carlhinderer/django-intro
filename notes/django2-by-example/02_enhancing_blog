@@ -1,0 +1,42 @@
+--------------------------------------------------------------------
+CHAPTER 2 - ENHANCING THE BLOG APPLICATION
+--------------------------------------------------------------------
+
+- Sharing Posts By Email
+
+    - First, we allow users to share posts by sending them as emails.  We need to:
+
+        1. Create a form for users to enter their name and email, the email recipient, and 
+             optional comments
+
+        2. Create a view in the 'views.py' file that handles the posted data and sends the
+             email
+
+        3. Add a URL pattern for the new view in the 'urls.py' file
+
+        4. Create a template to display the form
+
+
+
+- Creating Forms with Django
+
+    - We'll start by building the form to share posts.  We'll use Django's built-in forms
+        framework.
+
+      Django comes with 2 base classes to build forms:
+
+        1. 'Form' = allows you to build standard forms
+        2. 'ModelForm' = allows you to build forms tie to model instances
+
+    
+    - First, we create the form.  Forms can reside anywhere in a project, but the convention is to
+        put them in a 'forms.py' inside each application.
+
+        # blog/forms.py
+        from django import forms
+
+        class EmailPostForm(forms.Form):
+            name = forms.CharField(max_length=25)
+            email = forms.EmailField()
+            to = forms.EmailField()
+            comments = forms.CharField(required=False, widget=forms.Textarea)
