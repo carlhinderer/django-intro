@@ -269,3 +269,42 @@ CHAPTER 1 - BUILDING A BLOG APPLICATION
 
         # Descending order
         >>> Post.objects.order_by('-title')
+
+
+    - Deleting Objects
+
+        >>> post = Post.objects.get(id = 1)
+        >>> post.delete()
+
+
+
+- When QuerySets are Evaluated
+
+    - QuerySets are only evaluated in the following cases:
+
+        1. The first time you iterate over them
+        2. When you slice them
+        3. When you pickle or cache them
+        4. When you called 'repr()' or 'len()' on them
+        5. When you explicitly call 'list()' on them
+        6. When you test a statement, such as with 'bool', 'or', 'and', 'if'
+
+
+
+- Creating Model Managers
+
+    # blog/models.py
+    class PublishedManager(models.Manager):
+        def get_queryset(self):
+            return super(PublishedManager, self) \
+                   .get_queryset() \
+                   .filter(status='published')
+
+    class Post(models.Model):
+        # ...
+        objects = models.Manager()
+        published = PublishedManager()
+
+
+    # Now, we can use our model manager
+    >>> Post.published.filter(title__startswith = 'Who')
