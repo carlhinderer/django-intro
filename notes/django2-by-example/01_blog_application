@@ -215,4 +215,57 @@ CHAPTER 1 - BUILDING A BLOG APPLICATION
 
 - Working with QuerySet and Managers
 
-    - 
+    - The DjangoORM is compatible with MySQL, PostreSQL, SQLite, and Oracle.  It is possible to have 
+        multiple database connections, and you can add custom routing schemes if necessary.
+
+
+    - Creating Objects
+
+        # Run shell
+        $ python manage.py shell
+
+        # Create a new Post
+        >>> from django.contrib.auth.models import User
+        >>> from blog.models import Post
+
+        >>> user = User.objects.get(username='admin')
+        >>> post = Post(title = 'Another post',
+                        slug = 'another-post', 
+                        body = 'Post body.', 
+                        author = user)
+        >>> post.save()
+
+
+    - Updating Objects
+
+        >>> post.title = 'New title'
+        >>> post.save()
+
+
+    - Retrieving Objects
+
+        # Doesn't execute, because QuerySets are lazy
+        >>> all_posts = Post.objects.all()
+
+        # Does execute immediately
+        >>> Post.objects.all()
+
+
+    - Filtering Objects
+
+        # Filter by fields, double underscores for accessing fields of related models
+        >>> Post.objects.filter(publish__year = 2017, author__username = 'admin')
+
+
+        # Can exclude certain results using the 'exclude()' method of the manager
+        >>> Post.objects.filter(publish__year = 2017) \
+                        .exclude(title__startswith = 'Why')
+
+
+    - Ordering Results
+
+        # Ascending order
+        >>> Post.objects.order_by('title')
+
+        # Descending order
+        >>> Post.objects.order_by('-title')
