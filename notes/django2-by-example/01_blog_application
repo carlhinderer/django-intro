@@ -176,3 +176,43 @@ CHAPTER 1 - BUILDING A BLOG APPLICATION
 
 
 - Customizing the Admin Site
+
+    - Now, we'll change our admin settings.
+
+        # blog/admin.py
+        from django.contrib import admin
+        from .models import Post
+
+        @admin.register(Post)
+        class PostAdmin(admin.ModelAdmin):
+            list_display = ('title', 'slug', 'author', 'publish', 'status')
+
+
+    - Fields we can use include:
+
+        list_display          = Sets fields to be displayed on admin page
+        list_filter           = Filters to be included for fields
+        search_fields         = List of searchable fields
+        date_hierarchy        = Includes navigational links to search by date
+        ordering              = Default order of records
+        prepopulated_fields   = Default values for fields
+
+
+    - Here is a more complex customization:
+
+        @admin.register(Post)
+        class PostAdmin(admin.ModelAdmin):
+            list_display = ('title', 'slug', 'author', 'publish',
+                               'status')
+            list_filter = ('status', 'created', 'publish', 'author')
+            search_fields = ('title', 'body')
+            prepopulated_fields = {'slug': ('title',)}
+            raw_id_fields = ('author',)
+            date_hierarchy = 'publish'
+            ordering = ('status', 'publish')
+
+
+
+- Working with QuerySet and Managers
+
+    - 
