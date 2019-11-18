@@ -379,3 +379,79 @@ CHAPTER 1 - BUILDING A BLOG APPLICATION
                                    self.publish.month, 
                                    self.publish.day, 
                                    self.slug])
+
+
+
+- Creating Templates for Views
+
+    - This is the template directory structure we will use:
+
+        blog/
+          templates/
+            blog/
+              base.html
+              post/
+                detail.html
+                list.html
+
+
+    - Here's the base template, which the detail and list templates will inherit from:
+
+        # base.html
+        {% load static %}
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>{% block title %}{% endblock %}</title>
+          <link href="{% static "css/blog.css" %}" rel="stylesheet">
+        </head>
+        <body>
+          <div id="content">
+            {% block content %}
+            {% endblock %}
+          </div>
+          <div id="sidebar">
+            <h2>My blog</h2>
+              <p>This is my blog.</p>
+          </div>
+        </body>
+        </html>
+
+
+    - Here is the list template:
+
+        # post/list.html
+        {% extends "blog/base.html" %}
+
+        {% block title %}My Blog{% endblock %}
+        
+        {% block content %}
+          <h1>My Blog</h1>
+          {% for post in posts %}
+            <h2>
+              <a href="{{ post.get_absolute_url }}">
+                {{ post.title }}
+              </a>
+            </h2>
+            <p class="date">
+              Published {{ post.publish }} by {{ post.author }}
+            </p>
+            {{ post.body|truncatewords:30|linebreaks }}
+          {% endfor %}
+        {% endblock %}
+
+
+    - Here is the detail template:
+
+        # post/detail.html
+        {% extends "blog/base.html" %}
+
+        {% block title %}{{ post.title }}{% endblock %}
+        
+        {% block content %}
+          <h1>{{ post.title }}</h1>
+          <p class="date">
+            Published {{ post.publish }} by {{ post.author }}
+          </p>
+          {{ post.body|linebreaks }}
+        {% endblock %}
