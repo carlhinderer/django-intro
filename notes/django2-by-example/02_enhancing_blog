@@ -208,7 +208,7 @@ CHAPTER 2 - ENHANCING THE BLOG APPLICATION
 
 
     # Register the model for the admin page
-    # admin.py
+    # blog/admin.py
     from .models import Post, Comment
 
     @admin.register(Comment)
@@ -216,3 +216,51 @@ CHAPTER 2 - ENHANCING THE BLOG APPLICATION
         list_display = ('name', 'email', 'post', 'created', 'active')
         list_filter = ('active', 'created', 'updated')
         search_fields = ('name', 'email', 'body')
+
+
+
+- Creating Forms From Models
+
+    # blogs/forms.py
+    from .models import Comment
+
+    class CommentForm(forms.ModelForm):
+        class Meta:
+            model = Comment
+            fields = ('name', 'email', 'body')
+
+
+
+- Handling ModelForms in Views
+
+    # Update 'post_detail' in blog/views.py
+
+    from .models import Post, Comment
+    from .forms import EmailPostForm, CommentForm
+    
+    def post_detail(request, year, month, day, post):
+        post = get_object_or_404(Post, slug=post,
+                                       status='published',
+                                       publish__year=year,
+                                       publish__month=month,
+                                       publish__day=day)
+     
+        # List of active comments for this post
+        comments = post.comments.filter(active=True)
+    
+        new_comment = None
+    
+        if request.method == 'POST':
+            comment_form = CommentForm(data=request.POST)
+            if comment_form.is_valid():       
+                new_comment = comment_form.save(commit=False)
+                new_comment.post = post
+                new_comment.save()
+        else:
+            comment_form = CommentForm()                   
+        return render(request,
+                      'blog/post/detail.html',
+                      {'post': post,
+                       'comments': comments,
+                       'new_comment': new_comment,
+                       'comment_form': comment_form})
