@@ -505,3 +505,10 @@ CHAPTER 1 - BUILDING A BLOG APPLICATION
       ...
       {% include "pagination.html" with page=posts %}
     {% endblock %}
+
+
+    # We also need to copy css file over from github
+    /blog
+      /static
+        /css
+          blog.css
