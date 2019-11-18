@@ -344,7 +344,7 @@ CHAPTER 1 - BUILDING A BLOG APPLICATION
     app_name = 'blog'    # This lets us create a namespace for urls
 
     urlpatterns = [
-        # Post views
+        # Post views, note we use SEO-friendly url with date for detail
         path('', views.post_list, name='post_list')
         path('<int:year>/<int:month>/<int:day>/<slug:post>/',
              views.post_detail,
@@ -512,3 +512,35 @@ CHAPTER 1 - BUILDING A BLOG APPLICATION
       /static
         /css
           blog.css
+
+
+
+- Using Class-Based Views
+
+    - Class-based views are an alternative way to implement views as Python objects instead of functions.
+        Since a view is a callable that takes a web request and returns a web response, you can also
+        define your views as class methods.
+
+
+    - Here is our view class:
+
+        # blog/views.py
+        from django.views.generic import ListView
+
+        class PostListView(ListView):
+            queryset = Post.published.all()
+            context_object_name = 'posts'
+            paginate_by = 3
+            template_name = 'blog/post/list.html'
+
+
+    - We need to update our url to use the view class instead:
+
+        # blog/urls.py
+        path('', views.PostListView.as_view(), name='post_list')
+
+
+    - And, lastly we have to update our pagination tag:
+
+        # blog/list.html
+        {% include "pagination.html" with page=page_obj %}
