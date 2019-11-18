@@ -302,3 +302,56 @@ CHAPTER 2 - ENHANCING THE BLOG APPLICATION
         <p><input type="submit" value="Add comment"></p>
       </form>
     {% endif %}
+
+
+
+- Adding the Tagging Functionality
+
+    - Now, we will create a way to tag our posts.  We'll do this by integrating the third-parth
+        'django-taggit' module.
+
+        # Install the module
+        $ pip install django-taggit
+
+
+    - Next, we need to add taggit to INSTALLED_APPS
+
+        # mysite/settings.py
+        INSTALLED_APPS = [
+            'blog.apps.BlogConfig',
+            'taggit',
+        ]
+
+
+    - Now, we add the 'TaggableManager' to the Post model:
+
+        # blog/models.py
+        from taggit.managers import TaggableManager
+
+        class Post(models.Model):
+            # ...
+            tags = TaggableManager()
+
+
+    - Now, create and run a migration for our model change.
+
+        $ python manage.py makemigrations blog
+        $ python manage.py migrate
+
+
+
+    - Using the Tags Manager
+
+        In the shell, 
+
+          # Retrieve a post
+          >>> from blog.models import Post
+          >>> post = Post.objects.get(id=1)
+
+          # Add some tags to it
+          >>> post.tags.add('music', 'jazz', 'django')
+          >>> post.tags.all()
+
+          # Remove a tag
+          >>> post.tags.remove('django')
+          >>> post.tags.all
