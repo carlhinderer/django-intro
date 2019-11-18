@@ -40,3 +40,9 @@ CHAPTER 2 - ENHANCING THE BLOG APPLICATION
             email = forms.EmailField()
             to = forms.EmailField()
             comments = forms.CharField(required=False, widget=forms.Textarea)
+
+
+
+- Handling Forms in Views
+
+    - 
