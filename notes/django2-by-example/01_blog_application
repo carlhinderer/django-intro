@@ -455,3 +455,53 @@ CHAPTER 1 - BUILDING A BLOG APPLICATION
           </p>
           {{ post.body|linebreaks }}
         {% endblock %}
+
+
+
+- Adding Pagination
+
+    # Update blog/views.py
+    from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+ 
+    def post_list(request):
+        object_list = Post.published.all()
+        paginator = Paginator(object_list, 3) # 3 posts in each page
+        page = request.GET.get('page')
+        try:
+            posts = paginator.page(page)
+        except PageNotAnInteger:
+            # If page is not an integer deliver the first page
+            posts = paginator.page(1)
+        except EmptyPage:
+            # If page is out of range deliver last page of results
+            posts = paginator.page(paginator.num_pages)
+        return render(request,
+                      'blog/post/list.html',
+                      {'page': page,
+                       'posts': posts})
+
+
+
+- Creating a Template for the Pagination
+
+    # templates/pagination.html
+    <div class="pagination">
+      <span class="step-links">
+        {% if page.has_previous %}
+          <a href="?page={{ page.previous_page_number }}">Previous</a>
+        {% endif %}
+        <span class="current">
+          Page {{ page.number }} of {{ page.paginator.num_pages }}.
+        </span>
+          {% if page.has_next %}
+            <a href="?page={{ page.next_page_number }}">Next</a>
+          {% endif %}
+      </span>
+    </div>
+
+
+    # Add to post/list.html
+    {% block content %}
+      ...
+      {% include "pagination.html" with page=posts %}
+    {% endblock %}
