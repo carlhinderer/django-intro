@@ -114,7 +114,52 @@ CHAPTER 2 - ENHANCING THE BLOG APPLICATION
 
     - Finally, we add the url for the email method:
 
-        urlpatters = [
+        urlpatterns = [
           ... ,
           path('<int:post_id>/share/', views.post_share, name='post_share'),
         ]
+
+
+
+- Rendering Forms in Templates
+
+    - Now that we have created the form, added the view, and added the URL pattern, we just need to
+        create the template for the view.
+
+        # blog/templates/blog/post/share.html
+        {% extends "blog/base.html" %}
+        
+        {% block title %}Share a post{% endblock %}
+        
+        {% block content %}
+          {% if sent %}
+            <h1>E-mail successfully sent</h1>
+            <p>
+              "{{ post.title }}" was successfully sent to {{ form.cleaned_data.to }}.
+            </p>
+          {% else %}
+            <h1>Share "{{ post.title }}" by e-mail</h1>
+            <form action="." method="post">
+              {{ form.as_p }}
+              {% csrf_token %}
+              <input type="submit" value="Send e-mail">
+            </form>
+          {% endif %}
+        {% endblock %}
+
+
+    - The '{{ form.as_p }}' renders each field in the form as a <p> tag ('as_ul' and 'as_table' can also be
+        used).  It also renders any validation errors next to the fields.
+
+
+    - By default, Django checks for the CSRF token in all POST requests.  So, we must include the
+        '{% csrf_token %}' tag in all forms submitted via POST.
+
+
+    - Now, we add this link to 'detail.html':
+
+        <p>
+          <a href="{% url "blog:post_share" post.id %}">
+            Share this post
+          </a>
+        </p>
