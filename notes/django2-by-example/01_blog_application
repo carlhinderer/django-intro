@@ -360,3 +360,22 @@ CHAPTER 1 - BUILDING A BLOG APPLICATION
         path('admin/', admin.site.urls),
         path('blog/', include('blog.urls', namespace='blog')),
     ]
+
+
+
+- Canonical URLs for Models
+
+    We can use the 'post_detail' url to build the canonical URL for Post objects.  For this method, 
+      we will use the 'reverse()' method to the models that returns the canonical URL of the object.
+
+
+    # Add to blog/models.py
+    from django.urls import reverse
+
+    class Post(models.Model):
+        def get_absolute_url(self):
+            return reverse('blog:post_detail',
+                           args = [self.publish.year, 
+                                   self.publish.month, 
+                                   self.publish.day, 
+                                   self.slug])
