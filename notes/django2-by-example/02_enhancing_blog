@@ -307,7 +307,7 @@ CHAPTER 2 - ENHANCING THE BLOG APPLICATION
 
 - Adding the Tagging Functionality
 
-    - Now, we will create a way to tag our posts.  We'll do this by integrating the third-parth
+    - Now, we will create a way to tag our posts.  We'll do this by integrating the third-party
         'django-taggit' module.
 
         # Install the module
@@ -355,3 +355,84 @@ CHAPTER 2 - ENHANCING THE BLOG APPLICATION
           # Remove a tag
           >>> post.tags.remove('django')
           >>> post.tags.all
+
+
+
+- Displaying Tags
+
+    - Now, we'll edit our blog posts to display tags.
+
+        # Add below the post title
+        # blog/post/list.html
+
+        ffff<p class='tags'>Tags: {{ post.tags.all | join: ', ' }}
+
+
+    - Next, we'll change the 'post_list' view method so it works like this:
+
+        1. It takes an optional 'tag_slug' parameter that has a default value of None.  The 
+             parameter will come in the URL.
+
+        2. Inside the view, we build the initial QuerySet.  If there is a tag_slug, we get 
+             the tag object with the given slug, or return a 404.
+
+        3. Then we filter the list of posts by ones that contain the given tag.  Remeber that
+             we don't pay a performance penalty for this, since evaluation is lazy and
+             doesn't occur until render time.  
+
+
+    - Here is the complete 'post_list' view method:
+
+        def post_list(request, tag_slug=None): 
+            object_list = Post.published.all() 
+            tag = None 
+         
+            if tag_slug: 
+                tag = get_object_or_404(Tag, slug=tag_slug) 
+                object_list = object_list.filter(tags__in=[tag]) 
+         
+            paginator = Paginator(object_list, 3) # 3 posts in each page 
+            page = request.GET.get('page') 
+            try: 
+                posts = paginator.page(page) 
+            except PageNotAnInteger: 
+                # If page is not an integer deliver the first page 
+                posts = paginator.page(1) 
+            except EmptyPage: 
+                # If page is out of range deliver last page of results 
+                posts = paginator.page(paginator.num_pages) 
+            return render(request, 'blog/post/list.html', {'page': page, 
+                                                           'posts': posts, 
+                                                           'tag': tag})
+
+
+    - We have to display the tags in the 'list' and switch the pagination back to the method view way:
+
+        # blog/post/list.html
+        # After title
+        <p class="tags">Tags: {{ post.tags.all | join:', ' }}</p>
+
+        # Fix pagination
+        {% include "pagination.html" with page=posts %}
+
+
+    - Update the urls:
+
+        # blog/urls.py
+        # Switch back to view method for post list
+        path('', views.post_list, name='post_list')
+
+        # Add this url for posts by tag
+        path('tag/<slug:tag_slug>/', views.post_list, name='post_list_by_tag')
+
+
+    - Now, add this above the for loop in 'list.html':
+
+        {% if tag %}
+          <h2>Posts tagged with "{{ tag.name }}"</h2>
+        {% endif %}
+
+
+    - And we change how the tags are displayed in 'list.html':
+
+        
