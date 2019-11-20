@@ -17,13 +17,6 @@
     </a>
   </p>
 
-  <!-- Comments Header -->
-  {% with comments.count as total_comments %}
-    <h2>
-      {{ total_comments }} comment{{ total_comments | pluralize }}
-    </h2>
-  {% endwith %}
-
   <!-- Similar Posts -->
   <h2>Similar posts</h2>
   {% for post in similar_posts %}
@@ -33,6 +26,13 @@
   {% empty %}
     There are no similar posts yet.
   {% endfor %}
+
+  <!-- Comments Header -->
+  {% with comments.count as total_comments %}
+    <h2>
+      {{ total_comments }} comment{{ total_comments | pluralize }}
+    </h2>
+  {% endwith %}
 
   <!-- List of Comments -->
   {% for comment in comments %}

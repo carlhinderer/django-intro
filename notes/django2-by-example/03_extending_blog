@@ -25,7 +25,7 @@ CHAPTER 3 - EXTENDING THE BLOG APPLICATION
     - Now, add the 'blog_tags.py':
 
         # blog/templatetags/blog_tags.py
-        
+
         from django import template
         from ..models import Post
         
@@ -34,3 +34,17 @@ CHAPTER 3 - EXTENDING THE BLOG APPLICATION
         @register.simple_tag
         def total_posts():
             return Post.published.count()
+
+
+    - In order to make custom template tags avaiable in templates, we have to load them.
+
+        # templates/blog/base.html
+
+        {% load blog_tags %}
+        {% load static %}
+        <!DOCTYPE html>
+        ...
+
+        # Add this to 'sidebar' section
+        <p>This is my blog. I've written {% total_posts %} posts so far.</p>
+        
