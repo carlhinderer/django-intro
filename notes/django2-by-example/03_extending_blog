@@ -1,0 +1,36 @@
+--------------------------------------------------------------------
+CHAPTER 3 - EXTENDING THE BLOG APPLICATION
+--------------------------------------------------------------------
+
+- Creating Custom Template Tags and Filters
+
+    - Django provides these helper functions that allow you to create your own template tags in 
+        an easy manner.
+
+        1. 'simple_tag' = Processes the data and returns a string
+        2. 'inclusion_tag' = Processes the data and returns a rendered template
+
+
+    - Create a new directory for blog template tags:
+
+        blog/
+          __init__.py
+          models.py
+          ...
+          templatetags/
+            __init__.py
+            blog_tags.py
+
+
+    - Now, add the 'blog_tags.py':
+
+        # blog/templatetags/blog_tags.py
+        
+        from django import template
+        from ..models import Post
+        
+        register = template.Library()
+        
+        @register.simple_tag
+        def total_posts():
+            return Post.published.count()
