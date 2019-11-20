@@ -47,4 +47,36 @@ CHAPTER 3 - EXTENDING THE BLOG APPLICATION
 
         # Add this to 'sidebar' section
         <p>This is my blog. I've written {% total_posts %} posts so far.</p>
-        
+
+
+
+- Creating an Inclusion Tag
+
+    - Now, we'll create an inclusion tag, which can render a template with context variables
+        returned by your template tag.
+
+        # blog_tags.py
+
+        @register.inclusion_tag('blog/post/latest_posts.html')
+        def show_latest_posts(count=5):
+            latest_posts = Post.published.order_by('-publish')[:count]
+            return {'latest_posts': latest_posts}
+
+
+    - Create a new template to show the latest posts:
+
+        # blog/post/latest_posts.html
+        <ul>
+          {% for post in latest_posts %}
+            <li>
+              <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+
+
+    - And we can add the list of latest posts to our sidebar in 'base.html'.
+
+        # templates/blog/base.html
+        <h3>Latest Posts</h3>
+        {% show_latest_posts 3 %}
