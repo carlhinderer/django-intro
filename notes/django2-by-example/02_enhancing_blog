@@ -435,4 +435,63 @@ CHAPTER 2 - ENHANCING THE BLOG APPLICATION
 
     - And we change how the tags are displayed in 'list.html':
 
-        
+        <p class="tags">
+          Tags:
+          {% for tag in post.tags.all %}
+            <a href="{% url "blog:post_list_by_tag" tag.slug %}">
+              {{ tag.name }}
+            </a>
+            {% if not forloop.last %}, {% endif %}
+          {% endfor %}
+        </p>
+
+
+
+- Retrieving Posts By Similarity
+
+    - Now, that we've implemented tagging for our blog posts, we can do interesting things with
+        them.  For instance, we can display similar posts based on the number of shared tags. 
+
+
+    - First, add the Django ORM 'Count' aggregation function, and update the 'post_detail' view
+        method:
+
+        # blog/views.py
+        from django.db.models import Count
+
+
+        # Add to 'post_detail' before the 'render' function
+        # Retries a Python list of IDs for tags of the current post
+        post_tags_ids = post.tags.values_list('id', flat=True)
+
+        # Get all posts that contain any of these tags, excluding the current post
+        similar_posts = Post.published.filter(tags__in=post_tags_ids).exclude(id=post.id)
+
+        # Use the Count aggregation function to generate a calculated field 'same_tags' that contains
+        #   the number of tags shared with with all the tags queried, and order the result by
+        #   the number of shared tags (descending) using '-publish' to get most recently posts first,
+        #   and only retrieve the first 4 posts.
+        similar_posts = similar_posts.annotate(same_tags=Count('tags')) \
+                                     .order_by('-same_tags','-publish')[:4]
+
+
+        # Also, add 'similar_posts' to the render() function
+        return render(request,
+                      'blog/post/detail.html',
+                      {'post': post,
+                       ... ,
+                      'similar_posts': similar_posts})
+
+
+    - Now, we edit the 'post/detail.html' template:
+
+        # detail.html
+        # Put before comments list
+        <h2>Similar posts</h2>
+        {% for post in similar_posts %}
+          <p>
+            <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+          </p>
+        {% empty %}
+          There are no similar posts yet.
+        {% endfor %}
