@@ -80,3 +80,47 @@ CHAPTER 3 - EXTENDING THE BLOG APPLICATION
         # templates/blog/base.html
         <h3>Latest Posts</h3>
         {% show_latest_posts 3 %}
+
+
+
+- Creating a Template Tag with a Stored Result
+
+    - Here, we'll create a tag to display the most commented posts.
+
+        # blog_tags.py
+
+        @register.simple_tag
+        def get_most_commented_posts(count=5):
+            return Post.published \
+                       .annotate(total_comments=Count('comments')) \
+                       .order_by('-total_comments')[:count]
+
+
+      We:
+        1. Build a QuerySet using the 'annotate()' function to aggregate the total
+             number of comments for each post.
+
+        2. We use the 'Count' aggregation to store the number of comments in the
+             computed field in descending order.
+
+        3. We provide a 'count' argument to limit the number of objects returned.
+
+
+    - We'll add the most commented posts to the sidebar:
+
+        # templates/blog/base.html
+        # Add to sidebar
+
+        <h3>Most commented posts</h3>
+        {% get_most_commented_posts as most_commented_posts %}
+        <ul>
+        {% for post in most_commented_posts %}
+          <li>
+            <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+          </li>
+        {% endfor %}
+        </ul>
+
+
+
+- 
