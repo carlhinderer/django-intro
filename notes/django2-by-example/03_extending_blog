@@ -123,4 +123,66 @@ CHAPTER 3 - EXTENDING THE BLOG APPLICATION
 
 
 
-- 
+- Creating Custom Template Filters
+
+    - Django has a variety of built-in templates that can be used to modify variables in 
+        templates.  We can also create custom filters.  Here, we will create a filter that allows
+        us to use markdown syntax in our blog posts.
+
+
+    - First, we install Python markdown:
+
+        $ pip install Markdown==2.6.11
+
+
+    - Add to the blog_tags file:
+
+        # blog/templatetags/blog_tags.py
+        from django.utils.safestring import mark_safe
+        import markdown
+
+        @register.filter(name='markdown')
+        def markdown_format(text):
+            return mark_safe(markdown.markdown(text))
+
+
+    - Add the template tags module to the post list and detail templates.
+
+        {% load blog_tags %}
+
+
+    - And we add the filter the the post body in the templates.
+
+        # post/detail.html
+        {{ post.body | markdown }}
+
+        # post/list.html
+        {{ post.body | markdown | truncatewords_html:30 }}
+
+
+- Adding a Sitemap
+
+- Creating Feeds for Blog Posts
+
+- Installing PostgreSQL
+
+- Adding Full-Text Search to Blog
+
+    - Simple Search Lookups
+
+    - Searching Against Multiple Fields
+
+- Building a Search View
+
+- Stemming and Ranking Results
+
+- Weighting Queries
+
+- Searching With Trigram Similarity
+
+- Other Full-Text Search Engines
+
+    - We may want to use a full-text search engine other that PostgreSQL.  If you want to use
+        'Solr' or 'Elasticsearch', you can you can integrate them into your Django project using 
+        Haystack. Haystack is a Django application that works as an abstraction layer for multiple 
+        search engines. It offers a simple search API very similar to Django QuerySets. 
