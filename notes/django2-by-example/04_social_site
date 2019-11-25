@@ -1,0 +1,31 @@
+--------------------------------------------------------------------
+CHAPTER 4 - BUILDING A SOCIAL WEBSITE
+--------------------------------------------------------------------
+
+- Creating a Social Website Project
+
+
+- Using the Django Authentication Framework
+
+    - Creating a Login View
+    - Using Django Authentication Views
+    - Login and Logout Views
+    - Changing Password Views
+    - Resetting Password Views
+
+
+- User Registration and User Profiles
+
+    - User Registration
+    - Extending the User Model
+    - Using the messages Framework
+
+
+- Building a Custom Authentication Backend
+
+
+- Adding Social Authentication to Your Site
+
+    - Authenticaiton Using Facebook
+    - Authentication Using Twitter
+    - Authentication Using Google

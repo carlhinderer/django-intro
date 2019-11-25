@@ -1,0 +1,35 @@
+--------------------------------------------------------------------
+CHAPTER 5 - SHARING CONTENT
+--------------------------------------------------------------------
+
+- Creating an Image Bookmarking Website
+
+    - Building the Image Model
+    - Creating Many-to-Many Relationships
+    - Registering the image model in the admin site
+
+
+- Posting Content from Other Websites
+
+    - Cleaning Form Fields
+    - Overriding the save() Method of a ModelForm
+    - Building a Bookmarklet with jQuery
+
+
+- Creating a Detail View for Images
+
+
+- Creating Image Thumbnails using sorl-thumbnail
+
+
+- Adding AJAX actions with jQuery
+
+    - Loading jQuery
+    - CSRF in AJAX Requests
+    - Performing AJAX Requests with jQuery
+
+
+- Creating Custom Decorators for Views
+
+
+- Adding AJAX Pagination to Your List Views

@@ -1,0 +1,35 @@
+--------------------------------------------------------------------
+CHAPTER 6 - TRACKING USER ACTIONS
+--------------------------------------------------------------------
+
+- Building a Follower System
+
+    - Create Many-to-Many Relationships with an Intermediary Model
+    - Creating List and Detail Views for User Profiles
+    - Building an AJAX View to Follow Users
+
+
+- Building a Generic Activity Stream Application
+
+    - Using the 'contenttypes' Framework
+    - Adding Generic Relations to Your Models
+    - Avoiding Duplicate Actions in the Activity Stream
+    - Adding User Actions to the Activity Stream
+    - Displaying the Activity Stream
+    - Optimizing QuerySets that Involve Related Objects
+    - Creating Templates for Actions
+
+
+- Using Signals for Denormalizing Counts
+
+    - Working With Signals
+    - Application Configuration Classes
+
+
+- Using Redis for Storing Item Views
+
+    - Installing Redis
+    - Using Redis with Python
+    - Storing Item Views in Redis
+    - Storing a Ranking in Redis
+    - Next Steps with Redis

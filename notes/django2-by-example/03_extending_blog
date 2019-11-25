@@ -331,8 +331,6 @@ CHAPTER 3 - EXTENDING THE BLOG APPLICATION
 
 
 
-
-
 - Adding Full-Text Search to Blog
 
     - Now, we want to add search capabilities to our blog.  The Django ORM allows you to perform simple
