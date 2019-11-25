@@ -282,7 +282,73 @@ CHAPTER 3 - EXTENDING THE BLOG APPLICATION
 
 - Installing PostgreSQL
 
+    - Install PostgreSQL on Linux
+
+        $ sudo apt install libpq-dev python-dev
+        $ sudo apt install postgresql postgresql-contrib
+
+
+    - We also need the 'psycopg2' PostgreSQL adapter for Python.  
+
+        $ pip install psycopg2
+
+
+    - Create a user and database
+
+        # Log into postgres
+        $ sudo su - postgres
+        $ psql
+
+        # Create new database
+        > CREATE DATABASE blog;
+
+        # Create new user account to access the database
+        > CREATE USER bloguser WITH PASSWORD 'blogpw';
+
+        # Grant rights on the database to user
+        > GRANT ALL PRIVILEGES ON DATABASE blog TO bloguser;
+
+
+    - Modify the settings to use Postgres:
+
+        # mysite/settings.py
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.postgresql',
+                'NAME': 'blog',
+                'USER': 'bloguser',
+                'PASSWORD': blogpw',
+                'HOST': 'localhost',
+                'PORT': '5432',
+            }
+        }
+
+
+    - Finally, migrate the database and create a superuser:
+
+        $ python manage.py migrate
+        $ python manage.py createsuperuser
+
+
+
+
+
 - Adding Full-Text Search to Blog
+
+    - Now, we want to add search capabilities to our blog.  The Django ORM allows you to perform simple
+        matching operations using, for example, the 'contains' filter:
+
+        # Get posts that contain the word 'framework' in their body
+        >>> Post.objects.filter(body__contains='framework')
+
+
+    - However, if we want to perform complex search loookups, retrieving results by similarity or
+        weighting terms, we will need a full-text search engine.
+
+      Django provides a powerful search functionality built on top of PostgreSQL full-text search
+        features.  The 'django.contrib.postgres' module provides functionalities offered by Postgres
+        which are no available in other database types.
+
 
     - Simple Search Lookups
 
