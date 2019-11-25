@@ -256,6 +256,30 @@ CHAPTER 3 - EXTENDING THE BLOG APPLICATION
                 return truncatewords(item.body, 30)
 
 
+    - Here, we subclass the 'Feed' class of the syndication framework.  The 'title', 'link', and 
+        'description' correspond to the <title>, <link> and <description> RSS elements.
+
+
+    - We add our feed to 'blog/urls.py':
+
+        # blog/urls.py
+        from .feeds import LatestPostsFeed
+
+        urlpatterns = [
+            # ...
+            path('feed/', LatestPostsFeed(), name='post_feed'),
+        ]
+
+
+    - We can now navigate to the RSS field at 'http://localhost:8000/blog/feed/'.  The final step is to
+        add a feed subscription link to the blog's sidebar.  Open the 'blog/base.html' template and add
+        the following line under the number of total posts inside the sidebar 'div'.
+
+        # blog/base.html
+        # Add below total number of posts
+        <p><a href="{% url "blog:post_feed" %}">Subscribe to my RSS feed</a></p>
+
+
 - Installing PostgreSQL
 
 - Adding Full-Text Search to Blog
