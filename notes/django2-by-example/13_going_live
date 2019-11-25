@@ -1,0 +1,45 @@
+--------------------------------------------------------------------
+CHAPTER 13 - GOING LIVE
+--------------------------------------------------------------------
+
+- Creating a Production Environment
+
+
+- Managing Settings for Multiple Environments
+
+
+- Checking Your Project
+
+
+- Serving Django Through WSGI
+
+    - Installing uWSGI
+    - Configuring uWSGI
+
+
+- Installing NGINX
+
+- The Production Environment
+
+- Configuring NGINX
+
+- Serving Static and Media Assets
+
+
+- Securing Connections with SSL
+
+    - Creating an SSL Certificate
+    - Configuring NGINX to Use SSL
+    - Configuring Our Project for SSL
+
+
+- Creating a Custom Middleware
+
+
+- Creating a Subdomain Middleware
+
+
+- Serving Multiple Subdomains with NGINX
+
+
+- Implementing Custom Management Commands

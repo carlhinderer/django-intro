@@ -1,0 +1,41 @@
+--------------------------------------------------------------------
+CHAPTER 12 - BUILDING AN API
+--------------------------------------------------------------------
+
+- Building a RESTful API
+
+
+- Installing Django REST Framework
+
+
+- Defining Serializers
+
+
+- Understandin Parsers and Renderers
+
+
+- Building List and Detail Views
+
+
+- Creating Nested Serializers
+
+
+- Building Custom Views
+
+
+- Handling Authentication
+
+
+- Adding Permissions to Views
+
+
+- Creating View Sets and Routers
+
+
+- Adding Additional Actions to View Sets
+
+
+- Creating Custom Permissions
+
+
+- Serializing Course Contents

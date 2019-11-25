@@ -1,0 +1,44 @@
+--------------------------------------------------------------------
+CHAPTER 11 - RENDERING AND CACHING CONTENT
+--------------------------------------------------------------------
+
+- Displaying Courses
+
+
+- Adding Student Registration
+
+
+- Creating a Student Registration View
+
+
+- Enrolling in Courses
+
+
+- Acessing the Course Contents
+
+
+- Rendering Different Types of Contents
+
+
+- Using the cache Framework
+
+
+- Available cache Backends
+
+
+- Installing Memcached
+
+
+- Cache Settings
+
+
+- Cache Levels
+
+
+- Using the Low-Level Cache API
+
+
+- Caching Template Fragments
+
+
+- Caching Views

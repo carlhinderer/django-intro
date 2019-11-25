@@ -1,0 +1,32 @@
+--------------------------------------------------------------------
+CHAPTER 10 - BUILDING AN E-LEARNING PLATFORM
+--------------------------------------------------------------------
+
+- Setting Up the E-Learning Project
+
+
+- Building the Course Models
+
+    - Using Fixtures to Provide Initial Data for Models
+
+
+- Creating Models for Diverse Content
+
+    - Using Model Inheritance
+    - Creating the Content Models
+    - Creating Custom Model Fields
+    - Adding Ordering to Module and Content Objects
+
+
+- Creating a CMS
+
+    - Adding an Authentication System
+    - Creating the Authentication Templates
+    - Creating Class-based Views
+    - Using Mixins for Class-based Views
+    - Working with Groups and Permissions
+    - Managing Course Modules and Content
+    - Using Formsets for Course Modules
+    - Adding Content to Course Modules
+    - Managing Modules and Contents
+    - Reordering Modules and Contents
