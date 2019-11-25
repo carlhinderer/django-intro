@@ -1,0 +1,29 @@
+--------------------------------------------------------------------
+CHAPTER 7 - BUILDING AN ONLINE SHOP
+--------------------------------------------------------------------
+
+- Creating an Online Shop Project
+
+    - Creating Produce Catalog Models
+    - Registering Catalog Models on the Admin Site
+    - Building Catalog Views
+    - Creating Catalog Templates
+
+
+- Building a Shopping Cart
+
+    - Using Django Sessions
+    - Session Settings
+    - Session Expiration
+    - Storing Shopping Carts in Sessions
+    - Creating Shopping Cart Views
+    - Creating a Context Processor for the Current Cart
+    - Registering Customer Orders
+    - Creating the Order Model
+    - Creating Customer Orders
+    - Launching Asynchronous Tasks with Celery
+    - Installing Celery
+    - Installing RabbitMQ
+    - Adding Celery to Your Project
+    - Adding Asynchronous Tasks to Your Application
+    - Monitoring Celery

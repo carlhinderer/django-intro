@@ -1,0 +1,27 @@
+--------------------------------------------------------------------
+CHAPTER 9 - EXTENDING YOUR SHOP
+--------------------------------------------------------------------
+
+- Creating a Coupon System
+
+    - Building the Coupon Model
+    - Applying a Coupon to the Shopping Cart
+    - Applying Coupons to Orders
+
+
+- Adding Internationalization and Localization
+
+    - Internationalization with Django
+    - Preparing our Project for Internationalization
+    - Translating Python Code
+    - Translating Templates
+    - Using the Rosetta Translation Interface
+    - Fuzzy Translations
+    - URL Patterns For Initialization
+    - Allowing Users to Switch Language
+    - Translating Models with django-peeler
+    - Format Localization
+    - Usint django-localflavor to validate form fields
+
+
+- Building a Recommendation Engine

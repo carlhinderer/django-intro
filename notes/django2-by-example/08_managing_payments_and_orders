@@ -1,0 +1,25 @@
+--------------------------------------------------------------------
+CHAPTER 8 - MANAGING PAYMENTS AND ORDERS
+--------------------------------------------------------------------
+
+- Integrating a Payment Gateway
+
+    - Creating a BrainTree Sandbox Account
+    - Installing the BrainTree Python Module
+    - Integrating the Payment Gateway
+    - Testing Payments
+    - Going Live
+
+
+- Exporting Orders to CSV Files
+
+
+- Extending the Admin Site With Custom Views
+
+
+- Generating PDF Invoices Dynamically
+
+    - WeasyPrint
+    - Crating a PDF Template
+    - Rendering PDF Files
+    - Sending PDF Files by Email
